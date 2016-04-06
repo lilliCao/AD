@@ -1,17 +1,55 @@
 package aufgabenblatt1;
 
-public class VerketteteListe implements Liste{
+import java.util.LinkedList;
 
-	@Override
-	public Liste insert(int pos, Object elem) {
-		// TODO Auto-generated method stub
-		return null;
+public class VerketteteListe<T> implements Liste<T> {
+	int anzahlDerElemnet;
+	LinkedList list;
+	T naechstesElement;
+	T stopElement;
+
+	/**
+	 * Konstruktor
+	 */
+	public VerketteteListe() {
+		anzahlDerElemnet = 0;
+		list = new LinkedList();
+		naechstesElement = null;
+	}
+
+	/**
+	 * Getter
+	 */
+	public int getAnzahlDerElemnet() {
+		return anzahlDerElemnet;
+	}
+
+	public LinkedList getList() {
+		return list;
+	}
+
+	public T getNaechstesElement() {
+		return naechstesElement;
+	}
+
+	public T getStopElement() {
+		return stopElement;
+	}
+
+	public void setNaechstesElement(T naechstesElement) {
+		this.naechstesElement = naechstesElement;
 	}
 
 	@Override
-	public Liste delete(int pos) {
+	public void insert(int pos, Object elem) {
 		// TODO Auto-generated method stub
-		return null;
+
+	}
+
+	@Override
+	public void delete(int pos) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -21,25 +59,20 @@ public class VerketteteListe implements Liste{
 	}
 
 	@Override
-	public Object retrieve(int pos) {
+	public T retrieve(int pos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Liste concat(Liste otherlist) {
-		// TODO Auto-generated method stub
-		return null;
+	public void concat(Liste otherlist) {
+		VerketteteListe<T> otherlistV = (VerketteteListe<T>) otherlist;
+		setNaechstesElement(otherlistV.stopElement);
 	}
 
 	@Override
-	public int size(Liste list) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int size() {
+		return anzahlDerElemnet;
 	}
-
-	
-
-
 
 }

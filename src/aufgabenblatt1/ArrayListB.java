@@ -2,10 +2,8 @@ package aufgabenblatt1;
 
 public class ArrayListB<T> implements Liste<T> {
 	private Object[] array;
-    private final int STOP_INDEX =0;
-    
-    
- 
+	private final int STOP_INDEX = 0;
+
 	@Override
 	public void insert(int pos, Object elem) {
 		// TODO Auto-generated method stub
@@ -25,7 +23,7 @@ public class ArrayListB<T> implements Liste<T> {
 	}
 
 	@Override
-	public Object retrieve(int pos) {
+	public T retrieve(int pos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

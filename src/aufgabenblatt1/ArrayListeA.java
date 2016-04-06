@@ -30,6 +30,11 @@ public class ArrayListeA<T> implements Liste<T> {
 		return this.array;
 	}
 
+	/**
+	 * Diese Methode liefert ein array von allen freien Positionen in der Liste
+	 * 
+	 * @return ein integer array
+	 */
 	public int[] freiStelle() {
 		int[] listeDerFreieStelle = new int[array.length];
 		int j = 0;
@@ -41,17 +46,23 @@ public class ArrayListeA<T> implements Liste<T> {
 		}
 		return listeDerFreieStelle;
 	}
-public int naechsteFreiStelle(){
-	int j =0;
-	for(int i =0; i< array.length; i++){
-		if(array[i] == null){
-			j=i;
-			break;
+
+	/**
+	 * Diese Methode liefert die nächste freie Stelle in der Liste
+	 * 
+	 * @return position der nächste freie Stelle
+	 */
+	public int naechsteFreiStelle() {
+		int j = 0;
+		for (int i = 0; i < array.length; i++) {
+			if (array[i] == null) {
+				j = i;
+				return j;
+			}
 		}
+		return -1;
 	}
-	return j;
-}
-	
+
 	@Override
 	public void insert(int pos, T elem) throws IndexOutOfBoundsException {
 		if (array[pos] == null) {
@@ -95,10 +106,10 @@ public int naechsteFreiStelle(){
 	public void concat(Liste otherlist) {
 		Object[] arrayVerlaengern = new Object[size + otherlist.size()];
 		ArrayListeA otherlistA = (ArrayListeA) otherlist;
-		
+
 		System.arraycopy(array, 0, arrayVerlaengern, 0, size);
 		System.arraycopy(otherlistA.getArray(), 0, arrayVerlaengern, array.length, otherlist.size());
-		
+
 		array = arrayVerlaengern;
 		belegterPlatz = belegterPlatz + ((ArrayListeA) otherlist).belegterPlatz;
 	}
@@ -107,11 +118,5 @@ public int naechsteFreiStelle(){
 	public int size() {
 		return this.belegterPlatz;
 	}
-public static void main(String[] args) {
-	ArrayListeA<Integer> test = new ArrayListeA<Integer>(6);
-	test.insert(0, 0);
-	test.insert(5, 5);
-	test.insert(4, 4);
-	System.out.println(test.naechsteFreiStelle());
-}
+
 }

@@ -2,6 +2,7 @@ package aufgabenblatt1;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TestArrayListeA {
@@ -28,6 +29,16 @@ public class TestArrayListeA {
 		assertEquals(2, initialisiere().getBelegterPlatz());
 		// test getElemente
 
+	}
+
+	@Test
+	public void testNaechsteFreieStelle() {
+		ArrayListeA<Integer> test = new ArrayListeA<>(3);
+		test.insert(0, 0);
+		test.insert(2, 2);
+		assertEquals(1, test.naechsteFreiStelle());
+		test.insert(1, 1);
+		assertEquals(-1, test.naechsteFreiStelle());
 	}
 
 	@Test
@@ -63,6 +74,16 @@ public class TestArrayListeA {
 		assertEquals("zero", list2.getArray()[2]);
 		assertEquals(null, list2.getArray()[3]);
 
+		// Test wenn ungültige Positiion eingegeben wird
+		try {
+			list1.insert(8, 8);
+			;
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
 	}
 
 	@Test
@@ -71,11 +92,23 @@ public class TestArrayListeA {
 		test = initialisiere();
 		test.delete(0);
 		assertEquals(null, test.getArray()[0]);
+
+		// Test wenn ungültige Positiion eingegeben wird
+		try {
+			test.delete(8);
+			;
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 	}
 
 	@Test
 	public void testFind() {
+		// Gesuchtes Element ist vorhanden
 		assertEquals(1, initialisiere().find(1));
+		// Gesuchtes Element ist nicht vorhanden
 		assertEquals(-1, initialisiere().find(2));
 	}
 
@@ -83,6 +116,16 @@ public class TestArrayListeA {
 	public void testRetrieve() {
 		assertEquals(0, (Object) initialisiere().retrieve(0));
 		assertEquals(1, (Object) initialisiere().retrieve(1));
+
+		// Test wenn ungültige Positiion eingegeben wird
+		try {
+			initialisiere().retrieve(8);
+			;
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (IndexOutOfBoundsException e) {
+
+		}
 	}
 
 	@Test
@@ -95,11 +138,12 @@ public class TestArrayListeA {
 		assertEquals(0, (Object) test.getArray()[2]);
 		assertEquals(1, (Object) test.getArray()[3]);
 	}
+
 	@Test
-	public void testSize(){
+	public void testSize() {
 		assertEquals(2, initialisiere().size());
 		ArrayListeA<Integer> test = new ArrayListeA<>(2);
 		assertEquals(0, test.size());
 	}
-	
+
 }
