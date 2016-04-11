@@ -4,8 +4,10 @@ public interface Liste<T> {
 	/**
 	 * Diese Methode fügt ein neues Element an einer bestimmten Position in der
 	 * Liste
+	 * @throws UnvalidActionException  
+	 * wenn das Element null ist oder die Position ungültig ist.
 	 */
-	public void insert(int pos, T elem);
+	public void insert(int pos, T elem) throws UnvalidActionException ;
 
 	/**
 	 * Diese Methode löscht das Element an einer bestimmten Position in der
@@ -16,6 +18,7 @@ public interface Liste<T> {
 	/**
 	 * Diese Methode sucht ein Element in der Liste und liefert die Position des
 	 * gefundenes Element zurück
+	 * Wenn das Element liegt nicht an der Liste, liefert -1 zurück.
 	 */
 	public int find(T elem);
 
