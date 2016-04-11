@@ -1,18 +1,23 @@
 package aufgabenblatt1;
 
-public class Array<T> implements Liste<T> {
+import java.util.Arrays;
+
+public class Array_StopE<T extends Comparable<T>> implements Liste<T> {
 	private final int K;
 	private int size;
 	private Object[] array;
+	private T stopE;
 
 	/**
 	 * Konstruktor
 	 */
-	public Array(int length, int K) {
+	@SuppressWarnings("unchecked")
+	public Array_StopE(int length, int K) {
 		this.K = K;
-		this.size = 0;
+		this.size = 1;
 		this.array = new Object[length];
-
+		this.stopE = null;
+		array[0] = stopE;
 	}
 
 	/**
@@ -20,7 +25,7 @@ public class Array<T> implements Liste<T> {
 	 */
 
 	public int getSize() {
-		return this.size;
+		return (this.size - 1);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -35,7 +40,7 @@ public class Array<T> implements Liste<T> {
 	 * @return true oder false
 	 */
 	public boolean isValidPosition(int pos) {
-		return (pos >= 0 && pos <= size) ? true : false;
+		return (pos > 0 && pos <= size) ? true : false;
 	}
 
 	/**
@@ -88,21 +93,23 @@ public class Array<T> implements Liste<T> {
 		size--;
 		Object[] arrayC = new Object[array.length];
 		System.arraycopy(array, 0, arrayC, 0, array.length);
-		for (int i = pos; i < size ; i++) {
+		for (int i = pos; i < size; i++) {
 			array[i] = arrayC[i + 1];
 		}
-		array[size] =null;
+		array[size] = null;
 
 	}
 
 	@Override
 	public int find(T elem) {
-		for (int i = 0; i < size; i++) {
-			if (array[i].equals(elem)) {
+		stopE = elem;
+		for (int i = 1; i < size; i++) {
+			if (array[i].equals(stopE)) {
 				return i;
 			}
 		}
 		return -1;
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -116,42 +123,47 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void concat(Liste otherlist) {
-		int lim= size + ((Array) otherlist).size;
+		int lim = size + otherlist.size();
 		if (lim > array.length) {
 			Object[] newArray = new Object[array.length + K];
 			System.arraycopy(array, 0, newArray, 0, array.length);
 			array = newArray;
 		}
-		System.arraycopy(((Array) otherlist).array, 0, array, size, ((Array) otherlist).getSize());
+		System.arraycopy(((Array_StopE) otherlist).array, 1, array, size, ((Array_StopE) otherlist).getSize());
 	}
 
 	@Override
 	public int size() {
-		return this.size;
+		return (this.size - 1);
 	}
 
+	
+
 	public static void main(String[] args) throws UnvalidActionException {
-		Array<Integer> test = new Array<Integer>(4, 10);
+		Array_StopE<Integer> test = new Array_StopE<Integer>(4, 10);
 		if (test.getArray() instanceof Object[]) {
 			System.out.println("Yes");
 		}
 		try {
-			test.insert(0, 10);
-			test.insert(0, 11);
-			test.insert(0, 21);
-		//	test.insert(0, 31);
-			System.out.println(test.size);
+			System.out.println(test.getSize());
+			test.insert(1, 10);
+			test.insert(2, 11);
+			test.insert(3, 21);
+			test.insert(3, 31);
+			System.out.println(test.getSize());
 			System.out.println(test.array.length);
-			//test.insert(0, 41);
+			// test.insert(0, 41);
 		} catch (UnvalidActionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//test.concat(test);
+		test.concat(test);
+		System.out.println("E" + test.find(21));
 		System.out.println("Elemente in der Liste");
 		for (int i = 0; i < test.array.length; i++) {
 			System.out.println(test.array[i]);
 		}
 
 	}
+
 }
