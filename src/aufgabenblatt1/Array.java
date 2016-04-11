@@ -34,7 +34,7 @@ public class Array<T> implements Liste<T> {
 	 * 
 	 * @return true oder false
 	 */
-	public boolean isValidPosition(int pos) {
+	private boolean isValidPosition(int pos) {
 		return (pos >= 0 && pos <= size) ? true : false;
 	}
 
@@ -43,7 +43,7 @@ public class Array<T> implements Liste<T> {
 	 * 
 	 * @return true wenn es nicht null ist.
 	 */
-	public boolean isValidElement(T elem) {
+	private boolean isValidElement(T elem) {
 		return (elem != null) ? true : false;
 	}
 
@@ -51,7 +51,7 @@ public class Array<T> implements Liste<T> {
 	 * Diese Methode erhöht die Länge des Array um K. (K ist eine sinvolle
 	 * Konstant)
 	 */
-	public void resize(Object[] array) {
+	private void resize(Object[] array) {
 		Object[] newArray = new Object[array.length + K];
 		System.arraycopy(array, 0, newArray, 0, array.length);
 		array = newArray;
