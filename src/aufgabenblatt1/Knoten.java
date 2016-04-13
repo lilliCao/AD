@@ -16,6 +16,7 @@ public class Knoten<T> implements Liste<T> {
 
 	public Knoten(T content, Knoten<T> knoten) {
 		this(content);
+		size ++;
 		next = knoten;
 	}
 
