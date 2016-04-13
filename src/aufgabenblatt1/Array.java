@@ -88,10 +88,10 @@ public class Array<T> implements Liste<T> {
 		size--;
 		Object[] arrayC = new Object[array.length];
 		System.arraycopy(array, 0, arrayC, 0, array.length);
-		for (int i = pos; i < size ; i++) {
+		for (int i = pos; i < size; i++) {
 			array[i] = arrayC[i + 1];
 		}
-		array[size] =null;
+		array[size] = null;
 
 	}
 
@@ -115,14 +115,18 @@ public class Array<T> implements Liste<T> {
 	}
 
 	@Override
-	public void concat(Liste otherlist) {
-		int lim= size + ((Array) otherlist).size;
-		if (lim > array.length) {
-			Object[] newArray = new Object[array.length + K];
-			System.arraycopy(array, 0, newArray, 0, array.length);
-			array = newArray;
-		}
-		System.arraycopy(((Array) otherlist).array, 0, array, size, ((Array) otherlist).getSize());
+	public void concat(Liste otherlist) throws NullPointerException {
+	if (otherlist ==null){
+			throw new NullPointerException();
+	}
+			int lim = size + ((Array) otherlist).size;
+			if (lim > array.length) {
+				Object[] newArray = new Object[array.length + K];
+				System.arraycopy(array, 0, newArray, 0, array.length);
+				array = newArray;
+			}
+			System.arraycopy(((Array) otherlist).array, 0, array, size, ((Array) otherlist).getSize());
+	
 	}
 
 	@Override
@@ -139,19 +143,19 @@ public class Array<T> implements Liste<T> {
 			test.insert(0, 10);
 			test.insert(0, 11);
 			test.insert(0, 21);
-		//	test.insert(0, 31);
+			// test.insert(0, 31);
 			System.out.println(test.size);
 			System.out.println(test.array.length);
-			//test.insert(0, 41);
+			// test.insert(0, 41);
 		} catch (UnvalidActionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//test.concat(test);
-		System.out.println("Elemente in der Liste");
-		for (int i = 0; i < test.array.length; i++) {
-			System.out.println(test.array[i]);
-		}
+		// test.concat(test);
+		// System.out.println("Elemente in der Liste");
+		// for (int i = 0; i < test.array.length; i++) {
+		// System.out.println(test.array[i]);
+		// }
 
 	}
 }

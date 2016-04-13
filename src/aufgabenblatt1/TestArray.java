@@ -43,9 +43,20 @@ public class TestArray {
 
 	@Test
 	public void testInsert() throws UnvalidActionException {
+
 		// Test: Insert in dem freien Platz
 		Array<Integer> test = new Array<Integer>(3, 6);
 		Array<String> testS = new Array<String>(3, 6);
+
+		// Insert auf Position -1
+		try {
+			test.insert(-1, 8);
+			;
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (UnvalidActionException e) {
+			e.getMessage();
+		}
 
 		test.insert(0, 0);
 		test.insert(1, 1);
@@ -136,6 +147,13 @@ public class TestArray {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		// Test gesuchtes Element = null
+		try {
+			assertEquals(-1, initialisiere().find(null));
+		} catch (UnvalidActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -163,6 +181,17 @@ public class TestArray {
 		assertEquals(1, test.getArray()[1]);
 		assertEquals(0, (Object) test.getArray()[2]);
 		assertEquals(1, (Object) test.getArray()[3]);
+
+		// Concat eine NULL Liste in der Liste
+		try {
+			test.concat(null);
+			;
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (NullPointerException e) {
+
+		}
+
 	}
 
 	@Test
