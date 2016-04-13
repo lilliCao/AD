@@ -1,5 +1,7 @@
 package aufgabenblatt1;
 
+import static org.junit.Assert.assertEquals;
+
 public class Array<T> implements Liste<T> {
 	private final int K;
 	private int size;
@@ -53,8 +55,8 @@ public class Array<T> implements Liste<T> {
 	 */
 	private void resize(Object[] array) {
 		Object[] newArray = new Object[array.length + K];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-		array = newArray;
+		System.arraycopy(this.array, 0, newArray, 0, array.length);
+		this.array = newArray;
 	}
 
 	@Override
@@ -62,9 +64,7 @@ public class Array<T> implements Liste<T> {
 		if (isValidElement(elem) && isValidPosition(pos)) {
 			size++;
 			if (size > array.length) {
-				Object[] newArray = new Object[array.length + K];
-				System.arraycopy(array, 0, newArray, 0, array.length);
-				array = newArray;
+				resize(array);
 			}
 			if (array[pos] != null) {
 				Object[] arrayC = new Object[array.length];
@@ -116,17 +116,17 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-	if (otherlist ==null){
+		if (otherlist == null) {
 			throw new NullPointerException();
-	}
-			int lim = size + ((Array) otherlist).size;
-			if (lim > array.length) {
-				Object[] newArray = new Object[array.length + K];
-				System.arraycopy(array, 0, newArray, 0, array.length);
-				array = newArray;
-			}
-			System.arraycopy(((Array) otherlist).array, 0, array, size, ((Array) otherlist).getSize());
-	
+		}
+		int lim = size + otherlist.size();
+		if (lim > array.length) {
+			Object[] newArray = new Object[array.length + K];
+			System.arraycopy(array, 0, newArray, 0, array.length);
+			array = newArray;
+		}
+		System.arraycopy(((Array) otherlist).array, 0, array, size, otherlist.size());
+
 	}
 
 	@Override
@@ -134,28 +134,4 @@ public class Array<T> implements Liste<T> {
 		return this.size;
 	}
 
-	public static void main(String[] args) throws UnvalidActionException {
-		Array<Integer> test = new Array<Integer>(4, 10);
-		if (test.getArray() instanceof Object[]) {
-			System.out.println("Yes");
-		}
-		try {
-			test.insert(0, 10);
-			test.insert(0, 11);
-			test.insert(0, 21);
-			// test.insert(0, 31);
-			System.out.println(test.size);
-			System.out.println(test.array.length);
-			// test.insert(0, 41);
-		} catch (UnvalidActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// test.concat(test);
-		// System.out.println("Elemente in der Liste");
-		// for (int i = 0; i < test.array.length; i++) {
-		// System.out.println(test.array[i]);
-		// }
-
-	}
 }
