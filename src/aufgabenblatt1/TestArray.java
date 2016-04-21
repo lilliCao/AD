@@ -23,7 +23,7 @@ public class TestArray {
 	}
 
 	@Test
-	public void testGetter() throws UnvalidActionException {
+	public void testGetArray() throws UnvalidActionException {
 		initialisiere();
 		// test getArray
 		assertEquals(0, initialisiere().getArray()[0]);
@@ -79,14 +79,14 @@ public class TestArray {
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (UnvalidActionException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 		try {
 			test.insert(0, null);
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (UnvalidActionException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 
 		// Insert auf Position -1
@@ -95,7 +95,7 @@ public class TestArray {
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (UnvalidActionException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 
 	}
@@ -116,13 +116,14 @@ public class TestArray {
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 
 	@Test
 	public void testFind() throws UnvalidActionException {
 		// Gesuchtes Element ist vorhanden
+		assertEquals(0, initialisiere().find(0));
 		assertEquals(1, initialisiere().find(1));
 
 		// Gesuchtes Element ist nicht vorhanden
@@ -137,8 +138,8 @@ public class TestArray {
 	public void testRetrieve() throws IndexOutOfBoundsException, UnvalidActionException {
 		// Test mit gültiger Position
 
-		assertEquals(0, (Object) initialisiere().retrieve(0));
-		assertEquals(1, (Object) initialisiere().retrieve(1));
+		assertEquals(0, (int) initialisiere().retrieve(0));
+		assertEquals(1, (int) initialisiere().retrieve(1));
 
 		// Test wenn ungültige Positiion eingegeben wird
 		try {
@@ -146,28 +147,33 @@ public class TestArray {
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 
 	@Test
 	public void testConcat() throws UnvalidActionException {
-		Array<Integer> test = new Array<Integer>(4, 6);
+		Array<Integer> test = new Array<Integer>(3, 6);
 		test = initialisiere();
 		test.concat(test);
 		assertEquals(0, test.getArray()[0]);
 		assertEquals(1, test.getArray()[1]);
-		assertEquals(0, (Object) test.getArray()[2]);
-		assertEquals(1, (Object) test.getArray()[3]);
-
+		assertEquals(0, (int) test.getArray()[2]);
+		assertEquals(1, (int) test.getArray()[3]);
 		// Concat eine NULL Liste in der Liste
 		try {
 			test.concat(null);
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
+		// Concat eine Liste von keinen Elementen mit einer Liste von beliebigen
+		// Elementen
+		Array<Integer> test2 = new Array<Integer>(3, 6);
+		test2.concat(test);
+		assertEquals(4, test2.size());
+		assertEquals(0, (int) test2.retrieve(0));
 
 	}
 

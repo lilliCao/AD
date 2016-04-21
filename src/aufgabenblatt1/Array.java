@@ -17,14 +17,10 @@ public class Array<T> implements Liste<T> {
 
 	}
 
-	/**
+	/*
 	 * Getter
+	 * 
 	 */
-
-	public int getSize() {
-		return this.size;
-	}
-
 	@SuppressWarnings("unchecked")
 	public Object[] getArray() {
 		return this.array;
@@ -36,18 +32,6 @@ public class Array<T> implements Liste<T> {
 	 * 
 	 * @return true oder false
 	 */
-	private boolean isValidPosition(int pos) {
-		return (pos >= 0 && pos <= size) ? true : false;
-	}
-
-	/**
-	 * Diese Methode überprüft, ob ein Element null ist
-	 * 
-	 * @return true wenn es nicht null ist.
-	 */
-	private boolean isValidElement(T elem) {
-		return (elem != null) ? true : false;
-	}
 
 	/**
 	 * Diese Methode erhöht die Länge des Array um K. (K ist eine sinvolle
@@ -61,7 +45,7 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void insert(int pos, T elem) throws UnvalidActionException {
-		if (isValidElement(elem) && isValidPosition(pos)) {
+		if (pos >= 0 && pos <= size && elem != null) {
 			size++;
 			if (size > array.length) {
 				resize(array);
@@ -82,14 +66,16 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void delete(int pos) throws IndexOutOfBoundsException {
-		if (!isValidPosition(pos)) {
+		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
 		size--;
-		Object[] arrayC = new Object[array.length];
-		System.arraycopy(array, 0, arrayC, 0, array.length);
-		for (int i = pos; i < size; i++) {
-			array[i] = arrayC[i + 1];
+		if (pos != size - 1) {
+			Object[] arrayC = new Object[array.length];
+			System.arraycopy(array, 0, arrayC, 0, array.length);
+			for (int i = pos; i < size; i++) {
+				array[i] = arrayC[i + 1];
+			}
 		}
 		array[size] = null;
 
@@ -108,7 +94,7 @@ public class Array<T> implements Liste<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T retrieve(int pos) throws IndexOutOfBoundsException {
-		if (!isValidPosition(pos)) {
+		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
 		return (T) array[pos];
@@ -120,13 +106,11 @@ public class Array<T> implements Liste<T> {
 			throw new NullPointerException();
 		}
 		int lim = size + otherlist.size();
-		if (lim > array.length) {
-			Object[] newArray = new Object[array.length + K];
-			System.arraycopy(array, 0, newArray, 0, array.length);
-			array = newArray;
+		while (lim > array.length) {
+			resize(this.array);
 		}
 		System.arraycopy(((Array) otherlist).array, 0, array, size, otherlist.size());
-
+		size = size + otherlist.size();
 	}
 
 	@Override
