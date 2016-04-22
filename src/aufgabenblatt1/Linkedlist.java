@@ -4,28 +4,28 @@ import javax.imageio.IIOException;
 
 public class Linkedlist<T> implements Liste<T> {
 	private int size;
-	private Knoten<T> heap;
+	private Knoten<T> head;
 
 	/**
 	 * Konstruktor
 	 */
 	public Linkedlist() {
 		this.size = 0;
-		this.heap = new Knoten<T>();
+		this.head = new Knoten<T>();
 	}
 
 	/**
 	 * Getter
 	 */
-	public Knoten<T> getHeap() {
-		return heap;
+	public Knoten<T> getHead() {
+		return head;
 	}
 
 	/**
 	 * Setter
 	 */
-	public void setHeap(Knoten<T> knoten) {
-		this.heap = knoten;
+	public void setHead(Knoten<T> knoten) {
+		this.head = knoten;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Linkedlist<T> implements Liste<T> {
 		if (pos < 0 || pos > size || elem == null) {
 			throw new UnvalidActionException("Ungültige Position oder ungültiges Element");
 		}
-		Knoten<T> tmp = this.heap;
+		Knoten<T> tmp = this.head;
 		Knoten<T> insertKnoten = new Knoten(elem);
 		for (int i = 0; i < pos; i++) {
 			tmp = tmp.getNext();
@@ -49,7 +49,7 @@ public class Linkedlist<T> implements Liste<T> {
 		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
-		Knoten<T> tmp = heap;
+		Knoten<T> tmp = head;
 		for (int i = 0; i < pos; i++) {
 			tmp = tmp.getNext();
 		}
@@ -60,7 +60,7 @@ public class Linkedlist<T> implements Liste<T> {
 
 	@Override
 	public int find(T elem) {
-		Knoten<T> tmp = heap;
+		Knoten<T> tmp = head;
 		for (int i = 0; i < size; i++) {
 			tmp = tmp.getNext();
 			if (tmp.getContent().equals(elem))
@@ -74,7 +74,7 @@ public class Linkedlist<T> implements Liste<T> {
 		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
-		Knoten<T> tmp = this.heap.getNext();
+		Knoten<T> tmp = this.head.getNext();
 		for (int i = 0; i < pos; i++) {
 			tmp = tmp.getNext();
 		}
@@ -84,14 +84,14 @@ public class Linkedlist<T> implements Liste<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-		if (otherlist == null) {
+		if (otherlist == null || otherlist.size() == 0) {
 			throw new NullPointerException();
 		}
-		Knoten<T> tmp = heap;
+		Knoten<T> tmp = head;
 		while (tmp.getNext() != null) {
 			tmp = tmp.getNext();
 		}
-		tmp.setNext(((Linkedlist<T>) otherlist).heap.getNext());
+		tmp.setNext(((Linkedlist<T>) otherlist).head.getNext());
 		size = size + otherlist.size();
 	}
 
@@ -107,14 +107,14 @@ public class Linkedlist<T> implements Liste<T> {
 		test.insert(0, 0);
 		test.insert(1, 1);
 		test.insert(2, 6);
-		//test.delete(3);
+		// test.delete(3);
 		// test.delete(2);
 
 		// test.delete(1);
-	
+
 		test2.concat(test);
 		System.out.println(test2.size());
-//		System.out.println(test.retrieve(3));
+		// System.out.println(test.retrieve(3));
 
 	}
 }

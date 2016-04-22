@@ -174,6 +174,16 @@ public class TestArray {
 		test2.concat(test);
 		assertEquals(4, test2.size());
 		assertEquals(0, (int) test2.retrieve(0));
+		// Concat eine Liste mit beliebigen Elementen mit einer Liste von keinen
+		// Elementen
+		Array<Integer> test3 = new Array<Integer>(3, 6);
+		try {
+			test.concat(test3);
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (NullPointerException e) {
+			e.getMessage();
+		}
 
 	}
 

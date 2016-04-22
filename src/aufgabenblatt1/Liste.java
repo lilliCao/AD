@@ -40,7 +40,7 @@ public interface Liste<T> {
 	 * eingegebenen Liste werden am Ende des Originale Liste angehängt.
 	 * 
 	 * @throws NullPointerException
-	 *             wenn die eingegebene Liste null ist.
+	 *             wenn die eingegebene Liste null ist order keine Elemente enthält.
 	 */
 	public void concat(Liste otherlist) throws NullPointerException;
 

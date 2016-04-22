@@ -2,22 +2,22 @@ package aufgabenblatt1;
 
 public class Item<T> {
 	private T content;
-	private int nextPos;
-	private int prePos;
+	private Item<T> nextItem;
+	private Item<T> prevItem;
 
 	/**
 	 * Konstruktor
 	 */
-	public Item(T content, int pos) {
+	public Item(T content, Item<T> prevItem, Item<T> nextItem) {
 		this.content = content;
-		this.prePos = pos - 1;
-		this.nextPos = pos + 1;
+		this.prevItem = prevItem;
+		this.nextItem = nextItem;
 	}
 
 	public Item() {
 		this.content = null;
-		this.nextPos = 0;
-		this.prePos = 0;
+		this.nextItem = null;
+		this.prevItem = null;
 	}
 
 	/**
@@ -27,12 +27,12 @@ public class Item<T> {
 		return content;
 	}
 
-	public int getPrePos() {
-		return prePos;
+	public Item<T> getPrevItem() {
+		return prevItem;
 	}
 
-	public int getNextPos() {
-		return nextPos;
+	public Item<T> getNextItem() {
+		return nextItem;
 	}
 
 	/**
@@ -43,9 +43,12 @@ public class Item<T> {
 		this.content = content;
 	}
 
-	public void setPos(int pos) {
-		this.prePos = pos - 1;
-		this.nextPos = pos + 1;
+	public void setPrevItem(Item<T> prevItem) {
+		this.prevItem = prevItem;
+	}
+
+	public void setNextItem(Item<T> nextItem) {
+		this.nextItem = nextItem;
 	}
 
 }

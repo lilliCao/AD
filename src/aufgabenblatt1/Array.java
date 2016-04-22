@@ -102,7 +102,7 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-		if (otherlist == null) {
+		if (otherlist == null || otherlist.size() == 0) {
 			throw new NullPointerException();
 		}
 		int lim = size + otherlist.size();

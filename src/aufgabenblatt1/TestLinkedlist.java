@@ -13,8 +13,8 @@ public class TestLinkedlist {
 		// Insert gültiges Element in gültiger Position
 		test.insert(0, 0);
 		test.insert(1, 1);
-		assertEquals(0, (int) test.getHeap().getNext().getContent());
-		assertEquals(1, (int) test.getHeap().getNext().getNext().getContent());
+		assertEquals(0, (int) test.getHead().getNext().getContent());
+		assertEquals(1, (int) test.getHead().getNext().getNext().getContent());
 		// Insert in ungültige Position
 		try {
 			test.insert(8, 8);
@@ -41,9 +41,9 @@ public class TestLinkedlist {
 		test.insert(2, 2);
 		// Delete mit gültiger Position
 		test.delete(0);
-		assertEquals(1, (int) test.getHeap().getNext().getContent());
+		assertEquals(1, (int) test.getHead().getNext().getContent());
 		test.delete(1);
-		assertEquals(1, (int) test.getHeap().getNext().getContent());
+		assertEquals(1, (int) test.getHead().getNext().getContent());
 		// Delete mit ungültiger Position
 		try {
 			test.delete(1);
@@ -113,8 +113,15 @@ public class TestLinkedlist {
 		} catch (NullPointerException e) {
 			e.getMessage();
 		}
+		// Concat Originale Liste mit einer Liste, die nur head enthält
+		try {
+			test.concat(test2);
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+		} catch (NullPointerException e) {
+			e.getMessage();
+		}
 
-		// Concat Eine liste, die nur heap enthält mit einer Liste mit
+		// Concat Eine liste, die nur head enthält mit einer Liste mit
 		// beliebigen Elementen
 		test2.concat(test);
 		assertEquals(6, test2.size());
@@ -129,7 +136,7 @@ public class TestLinkedlist {
 		test.insert(1, 1);
 		test.insert(2, 2);
 		assertEquals(3, test.size());
-		// Liste enthält nur Heap
+		// Liste enthält nur Head
 		Linkedlist<Integer> test2 = new Linkedlist<Integer>();
 		assertEquals(0, test2.size());
 	}
