@@ -12,14 +12,16 @@ public class testQuicksort {
 
 	@Test
 	public void testQuickSort() {
-		int[] array = { 1, 14, 18, 2, 4 };
+		int[] array = { 1, 14, 18, 3, 4, 19,2 };
 		Quicksort test = new Quicksort();
-		test.quickSort(array, PivotPosition.ANFANG);
+		test.quickSort(array, PivotPosition.ENDE);
 		assertEquals(1, array[0]);
 		assertEquals(2, array[1]);
-		assertEquals(4, array[2]);
-		assertEquals(14, array[3]);
-		assertEquals(18, array[4]);
+		assertEquals(3, array[2]);
+		assertEquals(4, array[3]);
+		assertEquals(14, array[4]);
+		assertEquals(18, array[5]);
+		assertEquals(19, array[6]);
 		// Test Array von 0 oder 1 Element
 		int[] noSortArray = {1};
 		try {

@@ -72,7 +72,7 @@ public class Quicksort {
 	 * @param left
 	 * @param right
 	 */
-	private void swipe(int array[], int left, int right) {
+	private void swap(int array[], int left, int right) {
 		int tmp = array[left];
 		array[left] = array[right];
 		array[right] = tmp;
@@ -93,7 +93,7 @@ public class Quicksort {
 		int left = leftP;
 		int right = rightP;
 		int pivot = pivotAuswahl(array, left, right, pivotPosition);
-		while (left <= right) {
+		while (left < right) {
 			while (array[left] < pivot) {
 				count++;
 				left++;
@@ -104,7 +104,7 @@ public class Quicksort {
 			}
 			if (left <= right) {
 				count++;
-				swipe(array, left, right);
+				swap(array, left, right);
 				left++;
 				right--;
 
