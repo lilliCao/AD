@@ -4,38 +4,49 @@ public interface Liste<T> {
 	/**
 	 * Diese Methode fügt ein neues Element an einer bestimmten Position in der
 	 * Liste
-	 * @throws UnvalidActionException  
-	 * wenn das Element null ist oder die Position ungültig ist.
+	 * 
+	 * @throws UnvalidActionException
+	 *             wenn das Element null ist oder die Position ungültig ist.
 	 */
-	public void insert(int pos, T elem) throws UnvalidActionException ;
+	public void insert(int pos, T elem) throws UnvalidActionException;
 
 	/**
-	 * Diese Methode löscht das Element an einer bestimmten Position in der
-	 * Liste
+	 * Diese Methode löscht das Element an einer bestimmten gültigen Position in
+	 * der Liste.
+	 * 
+	 * @throws IndexOutOfBoundsException
+	 *             wenn die Position ungültig ist.
 	 */
-	public void delete(int pos);
+	public void delete(int pos) throws IndexOutOfBoundsException;
 
 	/**
 	 * Diese Methode sucht ein Element in der Liste und liefert die Position des
-	 * gefundenes Element zurück
-	 * Wenn das Element liegt nicht an der Liste, liefert -1 zurück.
+	 * gefundenes Element zurück Wenn das Element liegt nicht an der Liste,
+	 * liefert -1 zurück.
 	 */
 	public int find(T elem);
 
 	/**
 	 * Diese Methode sucht das Element an einer bestimmten Position in der Liste
 	 * und liefert es zurück
+	 * 
+	 * @throws IndexOutOfBoundsException
+	 *             wenn die Position ungültig ist.
 	 */
-	public T retrieve(int pos);
+	public T retrieve(int pos) throws IndexOutOfBoundsException;
 
 	/**
-	 * Diese Methode verknüpft zwei Liste mit einander
+	 * Diese Methode verknüpft zwei Liste mit einander. Alle Elementen von
+	 * eingegebenen Liste werden am Ende des Originale Liste angehängt.
+	 * 
+	 * @throws NullPointerException
+	 *             wenn die eingegebene Liste null ist order keine Elemente enthält.
 	 */
-	public void concat(Liste otherlist);
+	public void concat(Liste otherlist) throws NullPointerException;
 
 	/**
-	 * Diese Methode berechnet die Größe einer Liste (Anzahl der richtigen Element in der
+	 * Diese Methode berechnet die Größe einer Liste (Anzahl der Element in der
 	 * Liste )
 	 */
-	public int size ();
+	public int size();
 }

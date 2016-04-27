@@ -1,5 +1,7 @@
 package aufgabenblatt1;
 
+import static org.junit.Assert.assertEquals;
+
 public class Array<T> implements Liste<T> {
 	private final int K;
 	private int size;
@@ -15,14 +17,10 @@ public class Array<T> implements Liste<T> {
 
 	}
 
-	/**
+	/*
 	 * Getter
+	 * 
 	 */
-
-	public int getSize() {
-		return this.size;
-	}
-
 	@SuppressWarnings("unchecked")
 	public Object[] getArray() {
 		return this.array;
@@ -34,18 +32,6 @@ public class Array<T> implements Liste<T> {
 	 * 
 	 * @return true oder false
 	 */
-	private boolean isValidPosition(int pos) {
-		return (pos >= 0 && pos <= size) ? true : false;
-	}
-
-	/**
-	 * Diese Methode überprüft, ob ein Element null ist
-	 * 
-	 * @return true wenn es nicht null ist.
-	 */
-	private boolean isValidElement(T elem) {
-		return (elem != null) ? true : false;
-	}
 
 	/**
 	 * Diese Methode erhöht die Länge des Array um K. (K ist eine sinvolle
@@ -53,24 +39,22 @@ public class Array<T> implements Liste<T> {
 	 */
 	private void resize(Object[] array) {
 		Object[] newArray = new Object[array.length + K];
-		System.arraycopy(array, 0, newArray, 0, array.length);
-		array = newArray;
+		System.arraycopy(this.array, 0, newArray, 0, array.length);
+		this.array = newArray;
 	}
 
 	@Override
 	public void insert(int pos, T elem) throws UnvalidActionException {
-		if (isValidElement(elem) && isValidPosition(pos)) {
+		if (pos >= 0 && pos <= size && elem != null) {
 			size++;
 			if (size > array.length) {
-				Object[] newArray = new Object[array.length + K];
-				System.arraycopy(array, 0, newArray, 0, array.length);
-				array = newArray;
+				resize(array);
 			}
 			if (array[pos] != null) {
-				Object[] arrayC = new Object[array.length];
-				System.arraycopy(array, 0, arrayC, 0, array.length);
-				for (int i = pos + 1; i < size; i++) {
-					array[i] = arrayC[i - 1];
+				// Object[] arrayC = new Object[array.length];
+				// System.arraycopy(array, 0, arrayC, 0, array.length);
+				for (int i = size-1; i > pos; i--) {
+					array[i] = array[i - 1];
 				}
 			}
 			array[pos] = elem;
@@ -82,14 +66,16 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void delete(int pos) throws IndexOutOfBoundsException {
-		if (!isValidPosition(pos)) {
+		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
 		size--;
-		Object[] arrayC = new Object[array.length];
-		System.arraycopy(array, 0, arrayC, 0, array.length);
-		for (int i = pos; i < size; i++) {
-			array[i] = arrayC[i + 1];
+		if (pos != size - 1) {
+			Object[] arrayC = new Object[array.length];
+			System.arraycopy(array, 0, arrayC, 0, array.length);
+			for (int i = pos; i < size; i++) {
+				array[i] = arrayC[i + 1];
+			}
 		}
 		array[size] = null;
 
@@ -108,7 +94,7 @@ public class Array<T> implements Liste<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T retrieve(int pos) throws IndexOutOfBoundsException {
-		if (!isValidPosition(pos)) {
+		if (pos < 0 || pos >= size) {
 			throw new IndexOutOfBoundsException();
 		}
 		return (T) array[pos];
@@ -116,17 +102,15 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-	if (otherlist ==null){
+		if (otherlist == null || otherlist.size() == 0) {
 			throw new NullPointerException();
-	}
-			int lim = size + ((Array) otherlist).size;
-			if (lim > array.length) {
-				Object[] newArray = new Object[array.length + K];
-				System.arraycopy(array, 0, newArray, 0, array.length);
-				array = newArray;
-			}
-			System.arraycopy(((Array) otherlist).array, 0, array, size, ((Array) otherlist).getSize());
-	
+		}
+		int lim = size + otherlist.size();
+		while (lim > array.length) {
+			resize(this.array);
+		}
+		System.arraycopy(((Array) otherlist).array, 0, array, size, otherlist.size());
+		size = size + otherlist.size();
 	}
 
 	@Override
@@ -134,28 +118,4 @@ public class Array<T> implements Liste<T> {
 		return this.size;
 	}
 
-	public static void main(String[] args) throws UnvalidActionException {
-		Array<Integer> test = new Array<Integer>(4, 10);
-		if (test.getArray() instanceof Object[]) {
-			System.out.println("Yes");
-		}
-		try {
-			test.insert(0, 10);
-			test.insert(0, 11);
-			test.insert(0, 21);
-			// test.insert(0, 31);
-			System.out.println(test.size);
-			System.out.println(test.array.length);
-			// test.insert(0, 41);
-		} catch (UnvalidActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// test.concat(test);
-		// System.out.println("Elemente in der Liste");
-		// for (int i = 0; i < test.array.length; i++) {
-		// System.out.println(test.array[i]);
-		// }
-
-	}
 }

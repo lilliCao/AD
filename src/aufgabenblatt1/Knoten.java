@@ -12,6 +12,10 @@ public class Knoten<T> {
 		this.next = null;
 		this.content = content;
 	}
+	public Knoten() {
+		this.next = null;
+		this.content = null;
+	}
 
 	/**
 	 * Getter
@@ -34,8 +38,8 @@ public class Knoten<T> {
 		this.next = knoten;
 	}
 
-	public void setContent(T content) {
-		this.content = content;
-	}
+//	public void setContent(T content) {
+//		this.content = content;
+//	}
 
 }

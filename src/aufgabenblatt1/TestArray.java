@@ -23,22 +23,12 @@ public class TestArray {
 	}
 
 	@Test
-	public void testGetter() throws UnvalidActionException {
+	public void testGetArray() throws UnvalidActionException {
 		initialisiere();
 		// test getArray
 		assertEquals(0, initialisiere().getArray()[0]);
 		assertEquals(1, initialisiere().getArray()[1]);
-		// test getSize
-		assertEquals(2, initialisiere().getSize());
-		// Test in dem Bereich wo UnvalidActionException auftaucht
-		try {
-			initialisiere().insert(3, 4);
-			;
-			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
-		} catch (UnvalidActionException e) {
-
-		}
 	}
 
 	@Test
@@ -47,16 +37,6 @@ public class TestArray {
 		// Test: Insert in dem freien Platz
 		Array<Integer> test = new Array<Integer>(3, 6);
 		Array<String> testS = new Array<String>(3, 6);
-
-		// Insert auf Position -1
-		try {
-			test.insert(-1, 8);
-			;
-			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
-
-		} catch (UnvalidActionException e) {
-			e.getMessage();
-		}
 
 		test.insert(0, 0);
 		test.insert(1, 1);
@@ -73,6 +53,8 @@ public class TestArray {
 		assertEquals(10, test.getArray()[0]);
 		assertEquals(0, test.getArray()[1]);
 		assertEquals(1, test.getArray()[2]);
+		
+	
 
 		testS.insert(0, "zehn");
 		assertEquals("zehn", testS.getArray()[0]);
@@ -96,100 +78,113 @@ public class TestArray {
 		// Test wenn ungültige Positiion oder ungültiges Element eingegeben wird
 		try {
 			test.insert(8, 8);
-			;
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (UnvalidActionException e) {
-
+			e.getMessage();
 		}
 		try {
 			test.insert(0, null);
-			;
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (UnvalidActionException e) {
+			e.getMessage();
+		}
 
+		// Insert auf Position -1
+		try {
+			test.insert(-1, 8);
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
+
+		} catch (UnvalidActionException e) {
+			e.getMessage();
 		}
 
 	}
 
 	@Test
-	public void testDelete() throws UnvalidActionException {
+	public void testDelete() throws IndexOutOfBoundsException, UnvalidActionException {
 		Array<Integer> test = new Array<>(4, 6);
 		test = initialisiere();
+		test.insert(2, 2);
+		// Test mit gültiger Position
 		test.delete(0);
 		assertEquals(1, test.getArray()[0]);
+		assertEquals(2, test.getArray()[1]);
 
 		// Test wenn ungültige Positiion eingegeben wird
 		try {
 			test.delete(8);
-			;
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (IndexOutOfBoundsException e) {
-
+			e.getMessage();
 		}
 	}
 
 	@Test
-	public void testFind() {
+	public void testFind() throws UnvalidActionException {
 		// Gesuchtes Element ist vorhanden
-		try {
-			assertEquals(1, initialisiere().find(1));
-		} catch (UnvalidActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals(0, initialisiere().find(0));
+		assertEquals(1, initialisiere().find(1));
+
 		// Gesuchtes Element ist nicht vorhanden
-		try {
-			assertEquals(-1, initialisiere().find(2));
-		} catch (UnvalidActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals(-1, initialisiere().find(2));
+
 		// Test gesuchtes Element = null
-		try {
-			assertEquals(-1, initialisiere().find(null));
-		} catch (UnvalidActionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assertEquals(-1, initialisiere().find(null));
+
 	}
 
 	@Test
 	public void testRetrieve() throws IndexOutOfBoundsException, UnvalidActionException {
-		assertEquals(0, (Object) initialisiere().retrieve(0));
-		assertEquals(1, (Object) initialisiere().retrieve(1));
+		// Test mit gültiger Position
+
+		assertEquals(0, (int) initialisiere().retrieve(0));
+		assertEquals(1, (int) initialisiere().retrieve(1));
 
 		// Test wenn ungültige Positiion eingegeben wird
 		try {
 			initialisiere().retrieve(8);
-			;
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (IndexOutOfBoundsException e) {
-
+			e.getMessage();
 		}
 	}
 
 	@Test
 	public void testConcat() throws UnvalidActionException {
-		Array<Integer> test = new Array<>(4, 6);
+		Array<Integer> test = new Array<Integer>(3, 6);
 		test = initialisiere();
 		test.concat(test);
 		assertEquals(0, test.getArray()[0]);
 		assertEquals(1, test.getArray()[1]);
-		assertEquals(0, (Object) test.getArray()[2]);
-		assertEquals(1, (Object) test.getArray()[3]);
-
+		assertEquals(0, (int) test.getArray()[2]);
+		assertEquals(1, (int) test.getArray()[3]);
 		// Concat eine NULL Liste in der Liste
 		try {
 			test.concat(null);
-			;
 			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
 		} catch (NullPointerException e) {
+			e.getMessage();
+		}
+		// Concat eine Liste von keinen Elementen mit einer Liste von beliebigen
+		// Elementen
+		Array<Integer> test2 = new Array<Integer>(3, 6);
+		test2.concat(test);
+		assertEquals(4, test2.size());
+		assertEquals(0, (int) test2.retrieve(0));
+		// Concat eine Liste mit beliebigen Elementen mit einer Liste von keinen
+		// Elementen
+		Array<Integer> test3 = new Array<Integer>(3, 6);
+		try {
+			test.concat(test3);
+			Assert.assertTrue("Fehler: Es wurde keine Exception geworfen!", false);
 
+		} catch (NullPointerException e) {
+			e.getMessage();
 		}
 
 	}
