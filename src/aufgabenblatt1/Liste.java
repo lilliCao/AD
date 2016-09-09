@@ -12,7 +12,7 @@ public interface Liste<T> {
 
 	/**
 	 * Diese Methode löscht das Element an einer bestimmten gültigen Position in
-	 * der Liste.
+	 * der Liste.(von 0 bis size)
 	 * 
 	 * @throws IndexOutOfBoundsException
 	 *             wenn die Position ungültig ist.
@@ -37,10 +37,10 @@ public interface Liste<T> {
 
 	/**
 	 * Diese Methode verknüpft zwei Liste mit einander. Alle Elementen von
-	 * eingegebenen Liste werden am Ende des Originale Liste angehängt.
+	 * eingegebenen Liste werden am Ende des Original-liste angehängt.
 	 * 
 	 * @throws NullPointerException
-	 *             wenn die eingegebene Liste null ist order keine Elemente enthält.
+	 *             wenn die zu concat Liste null ist order keine Elemente enthält.
 	 */
 	public void concat(Liste otherlist) throws NullPointerException;
 

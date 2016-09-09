@@ -2,6 +2,13 @@ package aufgabenblatt1;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Diese Klasse stellt eine Liste in einem Array dar.
+ * 
+ * @author cao
+ *
+ * @param <T>
+ */
 public class Array<T> implements Liste<T> {
 	private final int K;
 	private int size;
@@ -10,7 +17,7 @@ public class Array<T> implements Liste<T> {
 	/**
 	 * Konstruktor
 	 */
-	public Array(int length, int K) {
+	public Array(int K, int length) {
 		this.K = K;
 		this.size = 0;
 		this.array = new Object[length];
@@ -27,13 +34,6 @@ public class Array<T> implements Liste<T> {
 	}
 
 	/**
-	 * Diese Methode überprüft eine eingegebene Position, ob man ein Element an
-	 * der Position hinzufügen darf. Die Position ist gültig von 0 bis size
-	 * 
-	 * @return true oder false
-	 */
-
-	/**
 	 * Diese Methode erhöht die Länge des Array um K. (K ist eine sinvolle
 	 * Konstant)
 	 */
@@ -46,18 +46,16 @@ public class Array<T> implements Liste<T> {
 	@Override
 	public void insert(int pos, T elem) throws UnvalidActionException {
 		if (pos >= 0 && pos <= size && elem != null) {
-			size++;
 			if (size > array.length) {
 				resize(array);
 			}
 			if (array[pos] != null) {
-				// Object[] arrayC = new Object[array.length];
-				// System.arraycopy(array, 0, arrayC, 0, array.length);
-				for (int i = size-1; i > pos; i--) {
+				for (int i = size; i > pos; i--) {
 					array[i] = array[i - 1];
 				}
 			}
 			array[pos] = elem;
+			size++;
 		} else {
 			throw new UnvalidActionException("Ungültige Aktion: Element null oder ungültige Position");
 		}
@@ -66,19 +64,15 @@ public class Array<T> implements Liste<T> {
 
 	@Override
 	public void delete(int pos) throws IndexOutOfBoundsException {
-		if (pos < 0 || pos >= size) {
+		if (pos >= 0 && pos < size) {
+			for (int i = pos; i < size - 1; i++) {
+				array[i] = array[i + 1];
+			}
+			array[size - 1] = null;
+			size--;
+		} else {
 			throw new IndexOutOfBoundsException();
 		}
-		size--;
-		if (pos != size - 1) {
-			Object[] arrayC = new Object[array.length];
-			System.arraycopy(array, 0, arrayC, 0, array.length);
-			for (int i = pos; i < size; i++) {
-				array[i] = arrayC[i + 1];
-			}
-		}
-		array[size] = null;
-
 	}
 
 	@Override
@@ -94,23 +88,25 @@ public class Array<T> implements Liste<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public T retrieve(int pos) throws IndexOutOfBoundsException {
-		if (pos < 0 || pos >= size) {
+		if (pos >= 0 && pos < size) {
+			return (T) array[pos];
+		} else {
 			throw new IndexOutOfBoundsException();
 		}
-		return (T) array[pos];
 	}
 
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-		if (otherlist == null || otherlist.size() == 0) {
+		if (otherlist != null && otherlist.size() != 0) {
+			int newsize = size + otherlist.size();
+			while (newsize > array.length) {
+				resize(this.array);
+			}
+			System.arraycopy(((Array) otherlist).array, 0, array, size, otherlist.size());
+			size = newsize;
+		} else {
 			throw new NullPointerException();
 		}
-		int lim = size + otherlist.size();
-		while (lim > array.length) {
-			resize(this.array);
-		}
-		System.arraycopy(((Array) otherlist).array, 0, array, size, otherlist.size());
-		size = size + otherlist.size();
 	}
 
 	@Override

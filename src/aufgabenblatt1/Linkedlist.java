@@ -30,32 +30,32 @@ public class Linkedlist<T> implements Liste<T> {
 
 	@Override
 	public void insert(int pos, T elem) throws UnvalidActionException {
-		if (pos < 0 || pos > size || elem == null) {
+		if (pos >= 0 && pos <= size && elem != null) {
+			Knoten<T> tmp = this.head;
+			Knoten<T> insertKnoten = new Knoten(elem);
+			for (int i = 0; i < pos; i++) {
+				tmp = tmp.getNext();
+			}
+			insertKnoten.setNext(tmp.getNext());
+			tmp.setNext(insertKnoten);
+			size++;
+		} else {
 			throw new UnvalidActionException("Ungültige Position oder ungültiges Element");
 		}
-		Knoten<T> tmp = this.head;
-		Knoten<T> insertKnoten = new Knoten(elem);
-		for (int i = 0; i < pos; i++) {
-			tmp = tmp.getNext();
-		}
-		insertKnoten.setNext(tmp.getNext());
-		tmp.setNext(insertKnoten);
-		size++;
-
 	}
 
 	@Override
 	public void delete(int pos) {
-		if (pos < 0 || pos >= size) {
+		if (pos >= 0 && pos < size) {
+			Knoten<T> tmp = head;
+			for (int i = 0; i < pos; i++) {
+				tmp = tmp.getNext();
+			}
+			tmp.setNext(tmp.getNext().getNext());
+			size--;
+		} else {
 			throw new IndexOutOfBoundsException();
 		}
-		Knoten<T> tmp = head;
-		for (int i = 0; i < pos; i++) {
-			tmp = tmp.getNext();
-		}
-		tmp.setNext(tmp.getNext().getNext());
-		size--;
-
 	}
 
 	@Override
@@ -71,28 +71,31 @@ public class Linkedlist<T> implements Liste<T> {
 
 	@Override
 	public T retrieve(int pos) throws IndexOutOfBoundsException {
-		if (pos < 0 || pos >= size) {
+		if (pos >= 0 && pos < size) {
+			Knoten<T> tmp = this.head.getNext();
+			for (int i = 0; i < pos; i++) {
+				tmp = tmp.getNext();
+			}
+			return tmp.getContent();
+		} else {
 			throw new IndexOutOfBoundsException();
 		}
-		Knoten<T> tmp = this.head.getNext();
-		for (int i = 0; i < pos; i++) {
-			tmp = tmp.getNext();
-		}
-		return tmp.getContent();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
-		if (otherlist == null || otherlist.size() == 0) {
+		if (otherlist != null && otherlist.size() != 0) {
+			Knoten<T> tmp = head;
+			while (tmp.getNext() != null) {
+				tmp = tmp.getNext();
+			}
+			tmp.setNext(((Linkedlist<T>) otherlist).head.getNext());
+			size = size + otherlist.size();
+		} else {
 			throw new NullPointerException();
+
 		}
-		Knoten<T> tmp = head;
-		while (tmp.getNext() != null) {
-			tmp = tmp.getNext();
-		}
-		tmp.setNext(((Linkedlist<T>) otherlist).head.getNext());
-		size = size + otherlist.size();
 	}
 
 	@Override
@@ -100,21 +103,4 @@ public class Linkedlist<T> implements Liste<T> {
 		return size;
 	}
 
-	public static void main(String[] args) throws UnvalidActionException {
-
-		Linkedlist<Integer> test = new Linkedlist<Integer>();
-		Linkedlist<Integer> test2 = new Linkedlist<Integer>();
-		test.insert(0, 0);
-		test.insert(1, 1);
-		test.insert(2, 6);
-		// test.delete(3);
-		// test.delete(2);
-
-		// test.delete(1);
-
-		test2.concat(test);
-		System.out.println(test2.size());
-		// System.out.println(test.retrieve(3));
-
-	}
 }
