@@ -6,7 +6,7 @@ public class DoubleLinkedlist<T extends Comparable<T>> implements Liste<T> {
 	private int size;
 	private Item<T> head;
 	private Item<T> tail;
-	// private Object[] array;
+	private Object[] array;
 
 	/**
 	 * Konstruktor
@@ -17,7 +17,7 @@ public class DoubleLinkedlist<T extends Comparable<T>> implements Liste<T> {
 		this.tail = new Item();
 		this.head.setNextItem(tail);
 		this.tail.setPrevItem(head);
-		// this.array = new Object[size];
+		this.array = new Object[100];
 	}
 
 	/**
