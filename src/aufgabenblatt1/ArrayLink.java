@@ -5,6 +5,7 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 	private final int K;
 	private Object[] array;
 	private int indexOfHead;
+	private Counter counter;
 
 	// Constructor
 	public ArrayLink(int K, int length) {
@@ -12,7 +13,7 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 		this.size = 0;
 		this.array = new Object[length];
 		this.indexOfHead = -1;
-
+		this.counter = new Counter();
 	}
 
 	/**
@@ -21,7 +22,9 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 	 */
 	private void resize(Object[] array) {
 		Object[] newArray = new Object[array.length + K];
+		counter.counterUp(2);
 		System.arraycopy(this.array, 0, newArray, 0, array.length);
+		counter.counterUp(array.length + 1);
 		this.array = newArray;
 	}
 
@@ -32,12 +35,16 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 	private int getFirstFreeArrayPosition() {
 		int i;
 		for (i = 0; i < array.length; i++) {
+			counter.counterUp(1);
 			if (array[i] == null) {
+				counter.counterUp(1);
 				return i;
 			}
 		}
 		resize(array);
+		counter.counterUp(1);
 		return i + 1;
+
 	}
 
 	/**
@@ -45,7 +52,9 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 	 */
 	private ArrayElement<T> getArrayElementAt(int pos) {
 		ArrayElement<T> arrayElement = (ArrayElement<T>) array[indexOfHead];
+		counter.counterUp(1);
 		for (int i = 0; i < pos; i++) {
+			counter.counterUp(2);
 			arrayElement = (ArrayElement<T>) array[arrayElement.getNextIndex()];
 		}
 		return arrayElement;
@@ -61,6 +70,7 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 			array[0] = new ArrayElement<T>(elem, 0, -1, -1);
 			indexOfHead = 0;
 			size++;
+			counter.counterUp(4);
 			return;
 		}
 
@@ -69,14 +79,16 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 		int nextIndexOfInsertElement = -1;
 		// am Anfang einfügen
 		if (pos == 0) {
-
+			counter.counterUp(1);
 			ArrayElement<T> head = getArrayElementAt(pos);
 			head.setPrevIndex(arrayIndexOfInsertElement);
 			nextIndexOfInsertElement = head.getIndex();
 			indexOfHead = arrayIndexOfInsertElement;
+
 		}
 		// am Ende einfügen
 		else if (pos == size) {
+			counter.counterUp(1);
 			ArrayElement<T> tail = getArrayElementAt(pos - 1);
 			tail.setNextIndex(arrayIndexOfInsertElement);
 			prevIndexOfInsertElement = tail.getIndex();
@@ -93,6 +105,7 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 		array[arrayIndexOfInsertElement] = new ArrayElement<T>(elem, arrayIndexOfInsertElement,
 				prevIndexOfInsertElement, nextIndexOfInsertElement);
 		size++;
+		counter.counterUp(2);
 	}
 
 	@Override
@@ -104,14 +117,17 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 		// nur ein Element
 		if (size == 1) {
 			indexOfHead = -1;
+			counter.counterUp(2);
 		}
 		// delete 1.Element
 		else if (pos == 0) {
+			counter.counterUp(1);
 			ArrayElement<T> elementAfterPosition = (ArrayElement<T>) array[tmp.getNextIndex()];
 			elementAfterPosition.setNextIndex(-1);
 			indexOfHead = elementAfterPosition.getIndex();
 		} // delete last Element
 		else if (pos == size - 1) {
+			counter.counterUp(1);
 			ArrayElement<T> elementBeforePosition = (ArrayElement<T>) array[tmp.getPrevIndex()];
 			elementBeforePosition.setNextIndex(-1);
 		} // delete spontanous element
@@ -124,14 +140,16 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 		}
 		array[tmp.getIndex()] = null;
 		size--;
-
+		counter.counterUp(2);
 	}
 
 	@Override
 	public int find(T elem) {
 		ArrayElement<T> arrayElement = (ArrayElement<T>) array[indexOfHead];
 		for (int i = 0; i < size; i++) {
+			counter.counterUp(1);
 			if (arrayElement.getContent().equals(elem)) {
+				counter.counterUp(1);
 				return i;
 			}
 			arrayElement = (ArrayElement<T>) array[arrayElement.getNextIndex()];
@@ -150,13 +168,16 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 	@Override
 	public void concat(Liste otherlist) throws NullPointerException {
 		if (otherlist != null && otherlist.size() != 0) {
+			counter.counterUp(2);
 			int newsize = size + otherlist.size();
 			while (newsize > array.length) {
+				counter.counterUp(1);
 				resize(this.array);
 			}
 			// System.arraycopy(((ArrayLink) otherlist).array, 0, array, size,
 			// otherlist.size());
 			for (int i = 0; i < otherlist.size(); i++) {
+				counter.counterUp(1);
 				try {
 					insert(this.size, (T) otherlist.retrieve(i));
 				} catch (IndexOutOfBoundsException | UnvalidActionException e) {
@@ -165,6 +186,7 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 				}
 			}
 			size = newsize;
+			counter.counterUp(1);
 		} else {
 			throw new NullPointerException();
 		}
@@ -173,7 +195,13 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 
 	@Override
 	public int size() {
+		counter.counterUp(1);
 		return size;
+	}
+
+	@Override
+	public Counter getCounter() {
+		return counter;
 	}
 
 }

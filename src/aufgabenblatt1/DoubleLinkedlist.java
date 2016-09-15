@@ -125,4 +125,10 @@ public class DoubleLinkedlist<T extends Comparable<T>> implements Liste<T> {
 		return size;
 	}
 
+	@Override
+	public Counter getCounter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -23,10 +23,10 @@ public class TestListe {
 
 	@Test
 	public void testInsert() throws UnvalidActionException {
-		// Liste test = new Array<Integer>(3, 6);
-		// Liste test = new Linkedlist();
+		 Liste test = new Array<Integer>(6, 3);
+		//Liste test = new Linkedlist();
 		// Liste test = new DoubleLinkedlist();
-		Liste test = new ArrayLink(3, 6);
+		//Liste test = new ArrayLink(3, 6);
 		// Test: Insert in dem freien Platz
 		test.insert(0, 0);
 		test.insert(1, 1);
@@ -72,10 +72,10 @@ public class TestListe {
 
 	@Test
 	public void testDelete() throws IndexOutOfBoundsException, UnvalidActionException {
-		// Liste test = new Array<>(4, 6);
+		 Liste test = new Array<>(4, 6);
 		// Liste test = new Linkedlist();
 		// Liste test = new DoubleLinkedlist();
-		Liste test = new ArrayLink<>(4, 6);
+		//Liste test = new ArrayLink<>(4, 6);
 		test = initialisiere();
 		test.insert(2, 2);
 		// Test mit gültiger Position
@@ -125,8 +125,8 @@ public class TestListe {
 
 	@Test
 	public void testConcat() throws UnvalidActionException {
-		// Liste test = new Array<Integer>(3, 6);
-		Liste test = new ArrayLink<Integer>(3, 6);
+		 Liste test = new Array<Integer>(3, 6);
+		//Liste test = new ArrayLink<Integer>(3, 6);
 		test = initialisiere();
 		test.concat(test);
 		assertEquals(0, test.retrieve(0));
@@ -143,8 +143,8 @@ public class TestListe {
 		}
 		// Concat eine Liste von keinen Elementen mit einer Liste von beliebigen
 		// Elementen
-		// Liste test2 = new Array<Integer>(3, 6);
-		Liste test2 = new ArrayLink<Integer>(3, 6);
+		 Liste test2 = new Array<Integer>(3, 6);
+		//Liste test2 = new ArrayLink<Integer>(3, 6);
 		test2.concat(test);
 		assertEquals(4, test2.size());
 		assertEquals(0, (int) test2.retrieve(0));

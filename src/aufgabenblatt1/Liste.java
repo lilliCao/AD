@@ -40,7 +40,8 @@ public interface Liste<T> {
 	 * eingegebenen Liste werden am Ende des Original-liste angehängt.
 	 * 
 	 * @throws NullPointerException
-	 *             wenn die zu concat Liste null ist order keine Elemente enthält.
+	 *             wenn die zu concat Liste null ist order keine Elemente
+	 *             enthält.
 	 */
 	public void concat(Liste otherlist) throws NullPointerException;
 
@@ -49,4 +50,11 @@ public interface Liste<T> {
 	 * Liste )
 	 */
 	public int size();
+
+	/**
+	 * Diese Methode liefert Anzahl der Operationen
+	 * 
+	 * @return
+	 */
+	public Counter getCounter();
 }
