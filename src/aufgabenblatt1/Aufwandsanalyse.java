@@ -1,6 +1,22 @@
 package aufgabenblatt1;
 
 public class Aufwandsanalyse {
+	
+	//leere Liste
+	//Liste mit Element
+	//Insert am Anfang
+	//Insert am Ende
+	//insert an beliebige Stelle
+	
+	
+	//Suchen
+	//Der Element befindet sich am Anfang
+	//Der Element befindet sich am Ende
+	//Der Element befindet sich in der Mitte
+	//Der Element ist nicht in der Liste
+	
+	
+	
 	private void changeSizeOfList() {
 
 	}
