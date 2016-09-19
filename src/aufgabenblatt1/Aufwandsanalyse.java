@@ -1,9 +1,11 @@
 package aufgabenblatt1;
 
+import java.util.Scanner;
+
 public class Aufwandsanalyse {
 	// list ini
-	private void listini(Liste list, int size) throws UnvalidActionException {
-		for (int i = 0; i < size; i++) {
+	private void listini(Liste list, int numberOfElement) throws UnvalidActionException {
+		for (int i = 0; i < numberOfElement; i++) {
 			list.insert(i, (int) Math.random() * 100);
 		}
 	}
@@ -15,35 +17,44 @@ public class Aufwandsanalyse {
 
 	public static void main(String[] args) throws UnvalidActionException {
 		Aufwandsanalyse test = new Aufwandsanalyse();
-		int number = 70;
-		// Create list
-		Liste array = new Array<Integer>(10, 100);
-		Liste linkedlist = new Linkedlist<Integer>();
-		Liste arraylink = new ArrayLink<Integer>(10, 100);
-		// List ini
-		test.listini(array, number);
-		test.listini(linkedlist, number);
-		test.listini(arraylink, number);
 
-		
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Size of list:");
+		int size = scanner.nextInt();
+		System.out.print("Number Inserted Element:");
+		int numberOfElement = scanner.nextInt();
+		scanner.close();
+
+		// Create list
+		Liste array = new Array<Integer>(10, size);
+		Liste linkedlist = new Linkedlist<Integer>();
+		Liste arraylink = new ArrayLink<Integer>(10, size);
+
+		// List ini
+		test.listini(array, numberOfElement);
+		test.listini(linkedlist, numberOfElement);
+		test.listini(arraylink, numberOfElement);
+
+		// old count
+		int countA = array.getCounter().getCounter();
+		int countL = linkedlist.getCounter().getCounter();
+		int countAL = arraylink.getCounter().getCounter();
+
 		// Insert am Anfang
-		array.insert(0, 100);
-		linkedlist.insert(0, 100);
-		arraylink.insert(0, 100);
-		test.print("Insert at the beginning", array.getCounter().getCounter(), linkedlist.getCounter().getCounter(),
-				arraylink.getCounter().getCounter());
 		// Insert am Ende
-		array.insert(number, 100);
-		linkedlist.insert(number, 100);
-		arraylink.insert(number, 100);
-		test.print("Insert at the end", array.getCounter().getCounter(), linkedlist.getCounter().getCounter(),
-				arraylink.getCounter().getCounter());
-		// insert an beliebige Stelle
-		array.insert((int)Math.random()*number, 100);
-		linkedlist.insert((int)Math.random()*number, 100);
-		arraylink.insert((int)Math.random()*number, 100);
-		test.print("Insert at the end", array.getCounter().getCounter(), linkedlist.getCounter().getCounter(),
-				arraylink.getCounter().getCounter());
+		// Insert an einer beliebige Position
+
+		int a = 7;
+		// Delete at the beginning
+		array.delete(a);
+		linkedlist.delete(a);
+		arraylink.delete(a);
+
+		int newCountA = array.getCounter().getCounter();
+		int newCountL = linkedlist.getCounter().getCounter();
+		int newCountAL = arraylink.getCounter().getCounter();
+
+		test.print("Delete at the beginning", newCountA - countA, newCountL - countL, newCountAL - countAL);
 
 		// Suchen
 		// Der Element befindet sich am Anfang
@@ -51,21 +62,5 @@ public class Aufwandsanalyse {
 		// Der Element befindet sich in der Mitte
 		// Der Element ist nicht in der Liste
 
-		/*
-		 * Array array = new Array<Integer>(10, 2); Linkedlist linklist = new
-		 * Linkedlist<Integer>(); ArrayLink arraylink = new
-		 * ArrayLink<Integer>(10, 2);
-		 * 
-		 * array.insert(0, 0); array.insert(0, 1); array.insert(0, 2);
-		 * 
-		 * linklist.insert(0, 0); linklist.insert(0, 1); linklist.insert(0, 2);
-		 * 
-		 * arraylink.insert(0, 0); arraylink.insert(0, 1); arraylink.insert(0,
-		 * 2);
-		 * 
-		 * System.out.println(array.getCounter().getCounter());
-		 * System.out.println(linklist.getCounter().getCounter());
-		 * System.out.println(arraylink.getCounter().getCounter());
-		 */
 	}
 }
