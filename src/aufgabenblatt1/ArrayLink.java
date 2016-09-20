@@ -174,8 +174,6 @@ public class ArrayLink<T extends Comparable<T>> implements Liste<T> {
 				counter.counterUp(1);
 				resize(this.array);
 			}
-			// System.arraycopy(((ArrayLink) otherlist).array, 0, array, size,
-			// otherlist.size());
 			for (int i = 0; i < otherlist.size(); i++) {
 				counter.counterUp(1);
 				try {
