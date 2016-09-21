@@ -1,6 +1,6 @@
-package aufgabenblatt2;
+package aufgabenblattn;
 
-import aufgabenblatt2.Quicksort.PivotPosition;
+import aufgabenblattn.Quicksort.PivotPosition;
 
 public class AufwandLaufzeit {
 	public static void laufzeit(int[] array) {

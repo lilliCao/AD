@@ -1,4 +1,4 @@
-package aufgabenblatt2;
+package aufgabenblattn;
 
 public class Quicksort {
 	enum PivotPosition {

@@ -1,4 +1,4 @@
-package aufgabenblatt2;
+package aufgabenblattn;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import aufgabenblatt1.UnvalidActionException;
-import aufgabenblatt2.Quicksort.PivotPosition;
+import aufgabenblattn.Quicksort.PivotPosition;
 
 public class testQuicksort {
 
