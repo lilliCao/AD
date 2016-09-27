@@ -73,6 +73,8 @@ public class PrimeNumber {
 	}
 
 	// define charakter of prime numbers
+	// check out a number, bigger than or as big as 2 wether its a prime number
+	// or not
 	public boolean primeIndentify(int n) {
 		for (int i = 2; i < Math.sqrt(n); i++) {
 			count++;
@@ -89,17 +91,23 @@ public class PrimeNumber {
 		Scanner scanner = new Scanner(System.in);
 		int n = scanner.nextInt();
 
-		boolean[] array;
-		array = test.slowSearch(n);
-		array = test.fastSearch(n);
-		array = test.eratSearch(n);
-		System.out.print("Prime Numbers are...");
-		for (int i = 2; i < array.length; i++) {
-			if (array[i] == true) {
-				System.out.println(" " + i);
-			}
-		}
+		int count1, count2, count3, count4;
+		test.slowSearch(n);
+		count1 = test.count;
+		test.fastSearch(n);
+		count2 = test.count - count1;
+		test.eratSearch(n);
+		count3 = test.count - count2 - count1;
+		test.primeIndentify(n);
+		count4 = test.count - count3 - count2 - count1;
+		System.out.format("%d  %d  %d   %d\n", count1, count2, count3, count4);
 
+		/*
+		 * boolean[] array; array = test.slowSearch(n); array =
+		 * test.fastSearch(n); array = test.eratSearch(n); System.out.print(
+		 * "Prime Numbers are..."); for (int i = 2; i < array.length; i++) { if
+		 * (array[i] == true) { System.out.println(" " + i); } }
+		 */
 		System.out.println("\n" + test.primeIndentify(n));
 
 	}
