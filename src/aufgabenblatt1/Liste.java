@@ -43,7 +43,7 @@ public interface Liste<T> {
 	 *             wenn die zu concat Liste null ist order keine Elemente
 	 *             enthält.
 	 */
-	public void concat(Liste otherlist) throws NullPointerException;
+	public void concat(Liste<T> otherlist) throws NullPointerException;
 
 	/**
 	 * Diese Methode berechnet die Größe einer Liste (Anzahl der Element in der
