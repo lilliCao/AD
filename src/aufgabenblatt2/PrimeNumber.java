@@ -90,7 +90,7 @@ public class PrimeNumber {
 		System.out.print("Please input a number ");
 		Scanner scanner = new Scanner(System.in);
 		int n = scanner.nextInt();
-
+/*
 		int count1, count2, count3, count4;
 		test.slowSearch(n);
 		count1 = test.count;
@@ -98,17 +98,15 @@ public class PrimeNumber {
 		count2 = test.count - count1;
 		test.eratSearch(n);
 		count3 = test.count - count2 - count1;
-		test.primeIndentify(n);
+		//test.primeIndentify(n);
+		for (int i = 0; i < n; i++) {
+			test.primeIndentify(i);
+		}
 		count4 = test.count - count3 - count2 - count1;
 		System.out.format("%d  %d  %d   %d\n", count1, count2, count3, count4);
 
-		/*
-		 * boolean[] array; array = test.slowSearch(n); array =
-		 * test.fastSearch(n); array = test.eratSearch(n); System.out.print(
-		 * "Prime Numbers are..."); for (int i = 2; i < array.length; i++) { if
-		 * (array[i] == true) { System.out.println(" " + i); } }
-		 */
-		System.out.println("\n" + test.primeIndentify(n));
+*/	
+		System.out.println("\n" + test.primeIndentify(n)+ " " + test.count);
 
 	}
 

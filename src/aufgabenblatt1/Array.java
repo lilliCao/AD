@@ -13,7 +13,7 @@ public class Array<T> implements Liste<T> {
 	private final int K;
 	private int size;
 	private Object[] array;
-	private Counter counter;
+	protected Counter counter;
 
 	/**
 	 * Konstruktor

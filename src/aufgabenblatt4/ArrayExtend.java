@@ -18,7 +18,9 @@ public class ArrayExtend<T> extends aufgabenblatt1.Array<T> {
 	public void bubbleSort() {
 		int temp;
 		for (int i = 1; i < this.size(); i++) {
+			counter.counterUp(1);
 			for (int j = 0; j < this.size() - 1; j++) {
+				counter.counterUp(1);
 				if ((int) this.retrieve(j) > (int) this.retrieve(j + 1)) {
 					temp = (int) this.retrieve(j);
 					this.getArray()[j] = this.retrieve(j + 1);
@@ -31,9 +33,11 @@ public class ArrayExtend<T> extends aufgabenblatt1.Array<T> {
 	public void insertSort() {
 		int temp;
 		for (int i = 1; i < this.size(); i++) {
+			counter.counterUp(1);
 			temp = (int) this.retrieve(i);
 			int j = i;
 			while (j > 0 && (int) this.getArray()[j - 1] > temp) {
+				counter.counterUp(1);
 				this.getArray()[j] = this.getArray()[j - 1];
 				j--;
 			}
