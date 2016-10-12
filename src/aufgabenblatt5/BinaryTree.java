@@ -10,6 +10,7 @@ package aufgabenblatt5;
  */
 public class BinaryTree {
 	private BinaryTreeNode root;
+	public static int sum;
 
 	// Constructor
 	public BinaryTree(int key) {
@@ -21,14 +22,24 @@ public class BinaryTree {
 	}
 
 	/**
-	 * This method searchs for a key in a binary search tree. Return true if key is
-	 * found, otherwise return false
+	 * This method searchs for a key in a binary search tree. Return true if key
+	 * is found, otherwise return false
 	 * 
 	 * @param key
 	 * @return true/false
 	 */
 	public boolean find(int key) {
-
+		BinaryTreeNode tmp = root;
+		while (tmp != null) {
+			if (tmp.key == key) {
+				return true;
+			} else if (key > tmp.key) {
+				tmp = tmp.right;
+			} else {
+				tmp = tmp.left;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -41,6 +52,36 @@ public class BinaryTree {
 	 * @return true/false
 	 */
 	public boolean insert(int key) {
+		BinaryTreeNode insertNode = new BinaryTreeNode(key);
+		// root ==null
+		if (root == null) {
+			root = insertNode;
+			return true;
+		}
+		// root # null
+		BinaryTreeNode tmp = root;
+		BinaryTreeNode parent = null;
+		while (true) {
+			parent = tmp;
+			// go to the left
+			if (key < parent.key) {
+				tmp = tmp.left;
+				if (tmp == null) {
+					parent.left = insertNode;
+					return true;
+				}
+				// go to the right
+			} else if (key > parent.key) {
+				tmp = tmp.right;
+				if (tmp == null) {
+					parent.right = insertNode;
+					return true;
+				}
+				// duplicate
+			} else {
+				return false;
+			}
+		}
 
 	}
 
@@ -53,14 +94,19 @@ public class BinaryTree {
 	 * @return true/false
 	 */
 	public boolean delete(int key) {
-
+		return false;
 	}
 
 	/**
 	 * Output through console: all nodes with key
 	 */
-	public void print() {
+	public void print(BinaryTreeNode root) {
+		if (root != null) {
+			print(root.left);
+			System.out.println(root.key);
+			print(root.right);
 
+		}
 	}
 
 	/**
@@ -71,9 +117,28 @@ public class BinaryTree {
 	 * @param M
 	 * @return sum
 	 */
-	public int sum(int m, int M) {
-		int sum = 0;
-		return sum;
+	public void sum(int m, int M, BinaryTreeNode root) {
+		if (root != null) {
+			sum(m, M, root.left);
+			if (root.key < M && root.key > m) {
+				this.sum += root.key;
+			}
+			sum(m, M, root.right);
+		}
+	}
 
+	public static void main(String[] args) {
+		BinaryTree test = new BinaryTree(1);
+		test.insert(3);
+		test.insert(2);
+		test.insert(9);
+		test.insert(14);
+		test.insert(3);
+		test.insert(3);
+		test.insert(8);
+		test.print(test.root);
+		System.out.println("sum...");
+		test.sum(1, 10, test.root);
+		System.out.println(test.sum);
 	}
 }
