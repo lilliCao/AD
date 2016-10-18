@@ -1,20 +1,20 @@
 package aufgabenblatt5;
 
 /**
- * This class describes a binary tree. A binary tree has nodes containing data
- * and two references to other nodes or NULL, one on the left and one on the
- * right
+ * This class describes a special binary tree. A binary tree has nodes
+ * containing key, value, summary of all values, keys of which are smaller than
+ * the current node, and two references to other nodes or NULL, one on the left
+ * and one on the right
  * 
  * @author cao
  *
  */
 public class BinaryTree {
 	private BinaryTreeNode root;
-	public static int sum;
 
 	// Constructor
-	public BinaryTree(int key) {
-		this.root = new BinaryTreeNode(key);
+	public BinaryTree(int key, int value) {
+		this.root = new BinaryTreeNode(key, value);
 	}
 
 	public BinaryTree() {
@@ -22,37 +22,38 @@ public class BinaryTree {
 	}
 
 	/**
-	 * This method searchs for a key in a binary search tree. Return true if key
-	 * is found, otherwise return false
+	 * This method searches for a node with an input key in a binary search
+	 * tree. Return the node if the node with the key is found, otherwise throw
+	 * NullPointerException("key isnt in tree")
 	 * 
 	 * @param key
-	 * @return true/false
+	 * @return found node/ Exception
 	 */
-	public boolean find(int key) {
+	public BinaryTreeNode find(int key) throws NullPointerException {
 		BinaryTreeNode tmp = root;
 		while (tmp != null) {
 			if (tmp.key == key) {
-				return true;
+				return tmp;
 			} else if (key > tmp.key) {
 				tmp = tmp.right;
 			} else {
 				tmp = tmp.left;
 			}
 		}
-		return false;
+		throw new NullPointerException("Key isnt in tree");
 	}
 
 	/**
-	 * This method inserts a key in a binary search tree. If the key is already
-	 * in the tree, return false (which means for this data structure is no
-	 * duplicates allowed), otherwise return true(the key is successfully
-	 * inserted)
+	 * This method inserts a node with key in a binary search tree. If the key
+	 * is already in the tree, return false (which means for this data structure
+	 * is no duplicates of key allowed), otherwise return true(the node with key
+	 * is successfully inserted)
 	 * 
 	 * @param key
 	 * @return true/false
 	 */
-	public boolean insert(int key) {
-		BinaryTreeNode insertNode = new BinaryTreeNode(key);
+	public boolean insert(int key, int value) {
+		BinaryTreeNode insertNode = new BinaryTreeNode(key, value);
 		// root ==null
 		if (root == null) {
 			root = insertNode;
@@ -98,47 +99,85 @@ public class BinaryTree {
 	}
 
 	/**
-	 * Output through console: all nodes with key
+	 * Output through console: all nodes with key and value in the undertree,
+	 * the root of which is the input node
+	 *
 	 */
 	public void print(BinaryTreeNode root) {
 		if (root != null) {
 			print(root.left);
-			System.out.println(root.key);
+			System.out.println(root.key + "..." + root.value);
 			print(root.right);
 
 		}
 	}
 
 	/**
-	 * This methode counts the summary of all keys, which is greater or equal m
-	 * and smaller or equal M)
+	 * This method writes in every node the summary of all values of nodes (
+	 * which are in the undertree with input root), the keys of which are
+	 * smaller than its key in the tree
 	 * 
-	 * @param m
-	 * @param M
-	 * @return sum
+	 * @param underRoot
 	 */
-	public void sum(int m, int M, BinaryTreeNode root) {
-		if (root != null) {
-			sum(m, M, root.left);
-			if (root.key < M && root.key > m) {
-				this.sum += root.key;
-			}
-			sum(m, M, root.right);
+	public void saveSum(BinaryTreeNode underRoot) {
+		if (underRoot != null) {
+			saveSum(underRoot.left);
+			sumAtNode(underRoot, this.root);
+			saveSum(underRoot.right);
+
 		}
 	}
 
+	/**
+	 * This method writes the summary of all values, the keys of which are
+	 * smaller than the key of input node in the undertree with the input root,
+	 * in sum of the input_node
+	 * 
+	 * @param node
+	 * @param root
+	 */
+	private void sumAtNode(BinaryTreeNode node, BinaryTreeNode root) {
+		if (root != null) {
+			sumAtNode(node, root.left);
+			if (root.key < node.key) {
+				node.sum += root.value;
+			}
+			sumAtNode(node, root.right);
+		}
+	}
+
+	/**
+	 * main function: quick test
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		BinaryTree test = new BinaryTree(1);
-		test.insert(3);
-		test.insert(2);
-		test.insert(9);
-		test.insert(14);
-		test.insert(3);
-		test.insert(3);
-		test.insert(8);
+		// Insert some nodes
+		BinaryTree test = new BinaryTree(1, 11);
+		test.insert(1, 1);
+		test.insert(2, 12);
+		test.insert(9, 19);
+		test.insert(14, 114);
+		test.insert(3, 13);
+		test.insert(3, 3);
+		test.insert(8, 8);
+		test.insert(19, 119);
+		test.insert(6, 16);
+		test.insert(7, 17);
+		// Print under tree with root.key =9
+		System.out.println("Undertree with root=9 output...");
+		test.print(test.find(9));
+		// Print tree
+		System.out.println("tree output...");
 		test.print(test.root);
-		System.out.println("sum...");
-		test.sum(1, 10, test.root);
-		System.out.println(test.sum);
+		// Nodes of tree with summary
+		System.out.println("Nodes of tree with summary...");
+		test.saveSum(test.root);
+		System.out.println("Node key =14 " + test.find(14).sum); // 11+12+13+8+16+17
+		System.out.println("Node key =8 " + test.find(8).sum); // 11+12+13+16+17
+		System.out.println("Node key =9 " + test.find(9).sum); // 11+12+13+16+17+8
+		// Print some differences between sumaries
+		System.out.println(test.find(14).sum - test.find(9).sum);
+		System.out.println(test.find(9).sum - test.find(8).sum);
 	}
 }
