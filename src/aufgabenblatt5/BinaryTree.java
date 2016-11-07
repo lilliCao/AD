@@ -174,10 +174,10 @@ public class BinaryTree {
 		System.out.println("Nodes of tree with summary...");
 		test.saveSum(test.root);
 		System.out.println("Node key =14 " + test.find(14).sum); // 11+12+13+8+16+17
-		System.out.println("Node key =8 " + test.find(8).sum); // 11+12+13+16+17
+		System.out.println("Node key =6 " + test.find(6).sum); // 11+12+13
 		System.out.println("Node key =9 " + test.find(9).sum); // 11+12+13+16+17+8
-		// Print some differences between sumaries
-		System.out.println(test.find(14).sum - test.find(9).sum);
-		System.out.println(test.find(9).sum - test.find(8).sum);
+		// Print some differences between sumaries (sum of bigger-sum of smaller -value of smaller)
+		System.out.format("Diff from note 14 to node 9: %d \n", test.find(14).sum - test.find(9).sum-test.find(9).value);
+		System.out.format("Diff from note 9 to node 6: %d", test.find(9).sum - test.find(6).sum - test.find(6).value);
 	}
 }
