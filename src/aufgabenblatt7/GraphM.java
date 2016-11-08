@@ -41,7 +41,10 @@ public class GraphM implements I_Graph {
 		this.tableOfContent[i] = city;
 
 	}
-
+//Hilfmethod for complexity analyse
+	public void setGraph(int n){
+		graph[n][n]=0;
+	}
 	// set row i of the matrix with the data from String[] data
 	public void setGraphM(int i, String[] data) {
 		for (int k = 1; k < data.length; k++) {

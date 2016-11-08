@@ -10,19 +10,22 @@ import sun.text.resources.ko.CollationData_ko;
 public class ComplexAnalyse {
 	private GraphM graph;
 
-	
 	// Graph random ini
 	public void graphRand(int length, int size) {
 		GraphM temp = new GraphM(length);
 		for (int i = 0; i < size; i++) {
-			temp.addNode("" + (char) (Math.random() * 256));
+			temp.addNode("" + (char) (i + 97));
 		}
-		for (int k = 0; k < length; k++) {
-			temp.addEdge((int) (Math.random() * size), (int) (Math.random() * size), (int) (Math.random() * length));
+		for (int k = 0; k < size * 5; k++) {
+			temp.addEdge((int) (Math.random() * size), (int) (Math.random() * size),
+					(int) ((Math.random() + 1) * length));
+		}
+		// Correct random
+		for (int a = 0; a < size; a++) {
+			temp.setGraph(a);
 		}
 		graph = temp;
 	}
-
 
 	// Read datei
 	public void graphIni(String filename) {
@@ -56,16 +59,20 @@ public class ComplexAnalyse {
 	public static void main(String[] args) {
 		ComplexAnalyse test = new ComplexAnalyse();
 		// Graph Ini with csvfile
-		 test.graphIni("C:/Users/cao/Desktop/TheHAW/4.Sem/AD/Praktikum/stadtentfernungen_dt.csv");
-		
+		// test.graphIni("C:/Users/cao/Desktop/TheHAW/4.Sem/AD/Praktikum/stadtentfernungen_dt.csv");
+
 		// Graph Ini random
-		//test.graphRand(1000, 300);
-		//Dijkstra Algorithms
+		test.graphRand(11, 10);
+
+		// Dijkstra Algorithms
 		test.graph.dijktraValue();
+
+		// All nodes output
 		for (int m = 0; m < test.graph.getSize(); m++) {
 			for (int n = 0; n < test.graph.getSize(); n++) {
 				if (m == n) {
-					System.out.println("***********Shortes way from this city to Aachen *************");
+					System.out.println("***********Shortes way from this city to " + test.graph.getTableOfContent()[0]
+							+ " *************");
 				}
 				System.out.println(test.graph.getTableOfContent()[m] + "-" + test.graph.getTableOfContent()[n] + ":"
 						+ test.graph.getGraph()[m][n]);
@@ -74,6 +81,7 @@ public class ComplexAnalyse {
 				}
 			}
 		}
+
 		// table of content
 		String[] text = test.graph.getTableOfContent();
 		for (int i = 0; i < test.graph.getSize(); i++) {
