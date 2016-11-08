@@ -11,14 +11,14 @@ public class ComplexAnalyse {
 	private GraphM graph;
 
 	// Graph random ini
-	public void graphRand(int length, int size) {
-		GraphM temp = new GraphM(length);
+	public void graphRand( int size) {
+		GraphM temp = new GraphM(size+1);
 		for (int i = 0; i < size; i++) {
 			temp.addNode("" + (char) (i + 97));
 		}
 		for (int k = 0; k < size * 5; k++) {
 			temp.addEdge((int) (Math.random() * size), (int) (Math.random() * size),
-					(int) ((Math.random() + 1) * length));
+					(int) ((Math.random() + 1) * size));
 		}
 		// Correct random
 		for (int a = 0; a < size; a++) {
@@ -58,35 +58,47 @@ public class ComplexAnalyse {
 
 	public static void main(String[] args) {
 		ComplexAnalyse test = new ComplexAnalyse();
+		int e = 0;
+		int v = 10;
 		// Graph Ini with csvfile
-		// test.graphIni("C:/Users/cao/Desktop/TheHAW/4.Sem/AD/Praktikum/stadtentfernungen_dt.csv");
+		//test.graphIni("C:/Users/cao/Desktop/TheHAW/4.Sem/AD/Praktikum/stadtentfernungen_dt.csv");
 
 		// Graph Ini random
-		test.graphRand(11, 10);
+		test.graphRand(v);
 
 		// Dijkstra Algorithms
+		long start = System.currentTimeMillis();
 		test.graph.dijktraValue();
+		long end = System.currentTimeMillis();
+
+		// Number of V and E
+		for (int m = 0; m < test.graph.getSize(); m++) {
+			e = e + test.graph.outEdges(m).size();
+		}
+
+		// Cost in time(ms)
+		System.out.println("***************************************");
+		System.out.println("Number of Edges: " + e);
+		System.out.println("Number of Nodes: " + test.graph.getSize());
+		System.out.println("Cost in ms: " + (end - start));
 
 		// All nodes output
-		for (int m = 0; m < test.graph.getSize(); m++) {
-			for (int n = 0; n < test.graph.getSize(); n++) {
-				if (m == n) {
-					System.out.println("***********Shortes way from this city to " + test.graph.getTableOfContent()[0]
-							+ " *************");
-				}
-				System.out.println(test.graph.getTableOfContent()[m] + "-" + test.graph.getTableOfContent()[n] + ":"
-						+ test.graph.getGraph()[m][n]);
-				if (m == n) {
-					System.out.println("**************************************************************");
-				}
-			}
-		}
-
+		/*
+		 * for (int m = 0; m < test.graph.getSize(); m++) { for (int n = 0; n <
+		 * test.graph.getSize(); n++) { if (m == n) { System.out.println(
+		 * "***********Shortes way from this city to " +
+		 * test.graph.getTableOfContent()[0] + " *************"); }
+		 * System.out.println(test.graph.getTableOfContent()[m] + "-" +
+		 * test.graph.getTableOfContent()[n] + ":" +
+		 * test.graph.getGraph()[m][n]); if (m == n) { System.out.println(
+		 * "**************************************************************"); }
+		 * } }
+		 */
+		
 		// table of content
-		String[] text = test.graph.getTableOfContent();
-		for (int i = 0; i < test.graph.getSize(); i++) {
-			System.out.println(i + ":" + text[i]);
-		}
-
+		/*
+		 * String[] text = test.graph.getTableOfContent(); for (int i = 0; i <
+		 * test.graph.getSize(); i++) { System.out.println(i + ":" + text[i]); }
+		 */
 	}
 }
