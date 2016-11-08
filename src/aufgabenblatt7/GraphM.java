@@ -2,6 +2,7 @@ package aufgabenblatt7;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * This class describes a graph in a nxn matrix
@@ -21,6 +22,35 @@ public class GraphM implements I_Graph {
 		this.graph = new int[length][length];
 		this.size = 0;
 		this.tableOfContent = new String[length];
+	}
+
+	// getter and setter
+	public int[][] getGraph() {
+		return this.graph;
+	}
+
+	public int getSize() {
+		return this.size;
+	}
+
+	public String[] getTableOfContent() {
+		return this.tableOfContent;
+	}
+
+	public void setTableOfContent(int i, String city) {
+		this.tableOfContent[i] = city;
+
+	}
+
+	// set row i of the matrix with the data from String[] data
+	public void setGraphM(int i, String[] data) {
+		for (int k = 1; k < data.length; k++) {
+			this.graph[i][k - 1] = Integer.parseInt(data[k]);
+		}
+	}
+
+	public void setSize(int i) {
+		this.size = i;
 	}
 
 	@Override
@@ -109,7 +139,28 @@ public class GraphM implements I_Graph {
 	// diagonal of the matrix
 
 	public void dijktraValue() {
-
+		// Queue
+		PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+		// Ini all nodes with Integer.MAX_VALUE
+		for (int i = 0; i < this.size; i++) {
+			graph[i][i] = Integer.MAX_VALUE;
+		}
+		int start = 0;
+		graph[start][start] = 0;
+		queue.add(graph[start][start]);
+		while (!queue.isEmpty()) {
+			// choose the node with the shortest way
+			int n = queue.poll();
+			for (int k = 0; k < this.size; k++) {
+				// all edges from start node
+				if (graph[n][k] != 0) {
+					if (graph[k][k] > graph[n][n] + graph[n][k]) {
+						graph[k][k] = graph[n][n] + graph[n][k];
+						queue.add(k);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -123,22 +174,30 @@ public class GraphM implements I_Graph {
 		test.addNode("B");
 		test.addNode("C");
 		test.addNode("D");
+		test.addNode("E");
 		test.addEdge(0, 1, 10);
 		test.addEdge(1, 2, 20);
 		test.addEdge(1, 3, 30);
-		test.addEdge(3, 3, 50);
+		test.addEdge(3, 2, 50);
 		test.addEdge(2, 3, 80);
 		test.addEdge(0, 1, 17);
-		//test.removeNode(0);
-		System.out.println(test.graph[1][2]);
-		for (int i = 0; i < test.size; i++) {
-			System.out.println(test.tableOfContent[i]);
+		test.addEdge(2, 4, 45);
+		test.removeNode(0);
+		test.dijktraValue();
+		for (int m = 0; m < test.size; m++) {
+			for (int n = 0; n < test.size; n++) {
+				System.out.println(m + "" + n + ":" + test.graph[m][n]);
+			}
 		}
-		//List<Integer> t= test.outEdges(2);
-		List<Integer> t= test.inEdges(3);
-		
-		for(int a =0; a< t.size(); a++){
-		System.out.println(t.get(a));
+
+		for (int i = 0; i < test.size; i++) {
+			System.out.println(i + ":" + test.tableOfContent[i]);
+		}
+		// List<Integer> t= test.outEdges(2);
+		List<Integer> t = test.inEdges(3);
+
+		for (int a = 0; a < t.size(); a++) {
+			System.out.println(t.get(a));
 		}
 	}
 }
