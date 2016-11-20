@@ -189,15 +189,17 @@ public class GraphM implements I_Graph {
 		test.addEdge(2, 4, 45);
 		test.removeNode(0);
 		test.dijktraValue();
+		System.out.println("*************GRAPH INI**************");
 		for (int m = 0; m < test.size; m++) {
 			for (int n = 0; n < test.size; n++) {
 				System.out.println(m + "" + n + ":" + test.graph[m][n]);
 			}
 		}
-
+System.out.println("**************TABLE OF CONTENT************");
 		for (int i = 0; i < test.size; i++) {
 			System.out.println(i + ":" + test.tableOfContent[i]);
 		}
+		System.out.println("**************CHECK EDGES****************");
 		// List<Integer> t= test.outEdges(2);
 		List<Integer> t = test.inEdges(1);
 		for (int a = 0; a < t.size(); a++) {

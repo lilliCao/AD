@@ -46,18 +46,27 @@ public class ArrayExtend<T> extends aufgabenblatt1.Array<T> {
 	}
 
 	public static void main(String[] args) throws UnvalidActionException {
-		ArrayExtend<Integer> test = new ArrayExtend<Integer>(10, 10);
+		
 
-		for (int i = 0; i < 10; i++) {
-			test.insert(i, (int) (Math.random() * 100));
-			System.out.println(test.retrieve(i));
-		}
-		// test.bubbleSort();
+		
+		for(int n =0; n<100; n++){
+			ArrayExtend<Integer> test = new ArrayExtend<Integer>(500, 1000);
+			//List random ini
+			for (int i = 0; i < 10000; i++) {
+				test.insert(i, (int) (Math.random() * 10000));
+				//System.out.println(test.retrieve(i));
+			}
+			//cost test
+		long start = System.currentTimeMillis();
+		//test.bubbleSort();
 		test.insertSort();
-		System.out.println("Sorting array....");
+		long end = System.currentTimeMillis();
+		System.out.println((end-start));
+		}
+		/*System.out.println("Sorting array....");
 		for (int j = 0; j < test.size(); j++) {
 			System.out.println(test.retrieve(j));
 		}
-
+        */
 	}
 }
