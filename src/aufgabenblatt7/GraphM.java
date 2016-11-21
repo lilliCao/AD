@@ -15,6 +15,7 @@ public class GraphM implements I_Graph {
 	private int length;
 	private int size;
 	private String[] tableOfContent;
+	private int[] dijktra;
 
 	// constructor
 	public GraphM(int length) {
@@ -22,6 +23,7 @@ public class GraphM implements I_Graph {
 		this.graph = new int[length][length];
 		this.size = 0;
 		this.tableOfContent = new String[length];
+		this.dijktra = new int[length];
 	}
 
 	// getter and setter
@@ -32,6 +34,10 @@ public class GraphM implements I_Graph {
 	public int getSize() {
 		return this.size;
 	}
+	public int[] getDijktra() {
+		return this.dijktra;
+	}
+
 
 	public String[] getTableOfContent() {
 		return this.tableOfContent;
@@ -160,6 +166,7 @@ public class GraphM implements I_Graph {
 				// all edges from start node
 				if (graph[n][k] != 0) {
 					if (graph[k][k] > graph[n][n] + graph[n][k]) {
+						this.dijktra[k] = n;
 						graph[k][k] = graph[n][n] + graph[n][k];
 						queue.add(k);
 					}
@@ -185,9 +192,10 @@ public class GraphM implements I_Graph {
 		test.addEdge(1, 3, 30);
 		test.addEdge(3, 2, 50);
 		test.addEdge(2, 3, 80);
-		test.addEdge(0, 1, 17);
+		// test.addEdge(0, 1, 17);
 		test.addEdge(2, 4, 45);
-		test.removeNode(0);
+		test.addEdge(3, 4, 10);
+		// test.removeNode(0);
 		test.dijktraValue();
 		System.out.println("*************GRAPH INI**************");
 		for (int m = 0; m < test.size; m++) {
@@ -195,9 +203,13 @@ public class GraphM implements I_Graph {
 				System.out.println(m + "" + n + ":" + test.graph[m][n]);
 			}
 		}
-System.out.println("**************TABLE OF CONTENT************");
+		System.out.println("**************TABLE OF CONTENT************");
 		for (int i = 0; i < test.size; i++) {
 			System.out.println(i + ":" + test.tableOfContent[i]);
+		}
+		System.out.println("************TABLE OF PREV*****************");
+		for (int i = 0; i < test.size; i++) {
+			System.out.println(test.tableOfContent[i] + ":" + test.tableOfContent[test.dijktra[i]]);
 		}
 		System.out.println("**************CHECK EDGES****************");
 		// List<Integer> t= test.outEdges(2);
