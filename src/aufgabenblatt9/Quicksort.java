@@ -51,6 +51,14 @@ public class Quicksort {
 			break;
 		case MEDIAN:
 			pivot = median(array[left], array[(left + right) / 2], array[right]);
+			if(pivot == array[left]){
+				swap(array, left , (left + right) / 2 );
+			}
+			if(pivot == array[right]){
+				swap(array, right , (left + right) / 2 );
+			}
+			
+			
 			break;
 		default:
 			pivot = array[(left + right) / 2];
@@ -125,45 +133,60 @@ public class Quicksort {
 		quickS(array, left, right, pivotPosition);
 	}
 
-	// Zum Vergleichen
-	public void insertSort(int[] array) {
-		int temp;
-		for (int i = 1; i < array.length; i++) {
-			temp = array[i];
-			int j = i;
-			while (j > 0 && array[j - 1] > temp) {
-				array[j] = array[j - 1];
-				j--;
-			}
-			array[j] = temp;
-		}
-	}
-
 	public static void main(String[] args) {
 		Quicksort test = new Quicksort();
-		int[] a, e, z, m, in;
-		long start = 0, enda = 0, ende = 0, endz = 0, endm = 0, endin=0;
-		int n = 0;
+		int[] a, e, z, m;
+		long start = 0, enda = 0, ende = 0, endz = 0, endm = 0;
+		int n,loop, sum = 0;
+		//int sizeA[] = { 10, 100, 1000, 10000, 100000, 1000000, 10000000,100000000 };
+		int sizeA[] ={10,50,100,500,1000,5000,10000,15000,20000,25000,30000, 35000,40000,50000, 100000, 1000000};
+		//int sizeA[] ={10,50,100,500,1000,2000,3000,4000,5000,6000};
+// Aufwandsanalyse
 
-		// Aufwandsanalyse
-		int sizeA[] = { 10, 100, 200, 300, 400, 500, 600, 700, 800, 800, 1000, 2000, 3000, 4000, 5000,10000, 5000};
-		int loop = 0;
+//Test einzelne, loop=20		
+        for(int j =0; j < sizeA.length; j++){
+        	n= sizeA[j];
+        	loop=0;
+        	while (loop != 100 ) {
+        	int[] array = new int[n];
+        		for (int i = 0; i < n; i++) {
+        	    array[i] = (int) (Math.random() * n * 5);
+        		//array[i] =n-i;
+        		//array[i] = i;
+        		}
+			start= System.currentTimeMillis();
+			test.quickSort(array, PivotPosition.MEDIAN);
+			//test.quickSort(array, PivotPosition.ANFANG);
+			//test.quickSort(array, PivotPosition.ENDE);
+			//test.quickSort(array, PivotPosition.ZUFALL);
+			
+			enda=System.currentTimeMillis();
+			sum+= enda-start;
+			loop++;
+        	}
+        	System.out.println(sum/100);
+        	
+		}
+
+		
+//TEst all
+/*
+		 
+		 loop = 0;
 
 		while (loop != sizeA.length) {
 			n = sizeA[loop];
 			int[] array = new int[n];
 			// System.out.println("*********LIST INI*************");
 			for (int i = 0; i < n; i++) {
-				//array[i] = (int) (Math.random() * n * 2);
-				 array[i] =i;
-			//	array[i] = n - i;
-				// System.out.print(" "+ array[i]);
+				 array[i] = (int) (Math.random() * n *5);
+				// array[i] =i;
+				 //array[i] = n - i;
 			}
 			a = array.clone();
 			e = array.clone();
 			z = array.clone();
 			m = array.clone();
-			in = array.clone();
 
 			start = System.currentTimeMillis();
 			test.quickSort(a, PivotPosition.ANFANG);
@@ -173,25 +196,25 @@ public class Quicksort {
 			test.quickSort(z, PivotPosition.ZUFALL);
 			endz = System.currentTimeMillis();
 			test.quickSort(m, PivotPosition.MEDIAN);
-            endm = System.currentTimeMillis();
-			test.insertSort(in);
-			endin = System.currentTimeMillis();
-
-			System.out.format("N=%7d::::%6d:%6d:%6d:%6d:%6d \n", n, (enda - start), (ende - enda), (endz - ende),
-					(endm - endz), (endin-endz));
+			endm = System.currentTimeMillis();
+			System.out.format("N=%9d::::%10d:%10d:%6d:%6d \n", n, (enda - start), (ende - enda), (endz - ende),
+					(endm - endz));
 
 			loop++;
 		}
-
-		// Correction
-		/*
+*/
+		
+		
+		
+/*
+		 *  Correction
 		 * int[] arrayT = { 1,190, 180, 112, 13, 4, 5, 0 , 1 , 2 , 1 , 6, 7, 28,
 		 * 9, 10, 11, 12, 13, 114, 15, 16, 17, 8, 19, 2 };
 		 * test.quickSort(arrayT, PivotPosition.ZUFALL);
-		 * //test.insertSort(arrayT);
-		 * System.out.println("*********SORTED LIST*************"); for(int i=0;
-		 * i< arrayT.length; i++){ System.out.print(" "+ arrayT[i]); }
-		 */
+		 * //test.insertSort(arrayT); System.out.println(
+		 * "*********SORTED LIST*************"); for(int i=0; i< arrayT.length;
+		 * i++){ System.out.print(" "+ arrayT[i]); }
+*/
 
 	}
 }
