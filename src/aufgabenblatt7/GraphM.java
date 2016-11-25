@@ -34,10 +34,10 @@ public class GraphM implements I_Graph {
 	public int getSize() {
 		return this.size;
 	}
+
 	public int[] getDijktra() {
 		return this.dijktra;
 	}
-
 
 	public String[] getTableOfContent() {
 		return this.tableOfContent;
@@ -178,6 +178,38 @@ public class GraphM implements I_Graph {
 	@Override
 	public String[] tableOfContent() {
 		return tableOfContent;
+	}
+
+	public String way(String to) {
+		// Exception a und b is nicht in der Graph
+		//
+		String way="";
+		int a = 0;
+		for (int i = 0; i < this.tableOfContent.length; i++) {
+			if (to.equals(this.tableOfContent[i])) {
+				a = i;
+				break;
+			}
+		}
+
+		List<Integer> list = new ArrayList();
+		int tmp = a;
+		list.add(tmp);
+		int n = 0;
+		while (tmp != 0) {
+			tmp = dijktra[tmp];
+			list.add(tmp);
+			n++;
+			if (n == this.tableOfContent.length) {
+				break;
+			}
+		}
+
+		for (int i = 0; i < list.size(); i++) {
+			way += this.tableOfContent[list.get(i)] + "-";
+		}
+		return way;
+
 	}
 
 	public static void main(String[] args) {

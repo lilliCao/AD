@@ -11,8 +11,8 @@ public class ComplexAnalyse {
 	private GraphM graph;
 
 	// Graph random ini
-	public void graphRand( int size) {
-		GraphM temp = new GraphM(size+1);
+	public void graphRand(int size) {
+		GraphM temp = new GraphM(size + 1);
 		for (int i = 0; i < size; i++) {
 			temp.addNode("" + (char) (i + 97));
 		}
@@ -61,10 +61,10 @@ public class ComplexAnalyse {
 		int e = 0;
 		int v = 10;
 		// Graph Ini with csvfile
-		test.graphIni("C:/Users/abt674/Downloads/stadtentfernungen_dt.csv");
+		test.graphIni("C:/Users/cao/Desktop/TheHAW/4.Sem/AD/Praktikum/stadtentfernungen_dt.csv");
 
 		// Graph Ini random
-		//test.graphRand(v);
+		// test.graphRand(v);
 
 		// Dijkstra Algorithms
 		long start = System.currentTimeMillis();
@@ -83,25 +83,35 @@ public class ComplexAnalyse {
 		System.out.println("Cost in ms: " + (end - start));
 
 		// All nodes output
-		
-		 for (int m = 0; m < test.graph.getSize(); m++) { for (int n = 0; n <
-		 test.graph.getSize(); n++) { if (m == n) { System.out.println(
-		 "***********Shortes way from this city to " +
-		 test.graph.getTableOfContent()[0] + " *************"); }
-		 System.out.println(test.graph.getTableOfContent()[m] + "-" +
-		 test.graph.getTableOfContent()[n] + ":" +
-		 test.graph.getGraph()[m][n]); if (m == n) { System.out.println(
-		  "**************************************************************"); }
-		  } }
-			System.out.println("************TABLE OF PREV*****************");
-			for (int i = 0; i < test.graph.getSize(); i++) {
-				System.out.println(test.graph.getTableOfContent()[i] + ":" + test.graph.getTableOfContent()[test.graph.getDijktra()[i]]);
+		System.out.println("************************ALL NODES OUTPUT WITH DISTANCE TO OTHER NODES********************");
+		for (int m = 0; m < test.graph.getSize(); m++) {
+			for (int n = 0; n < test.graph.getSize(); n++) {
+				if (m == n) {
+					System.out.println("***********Shortes way from this city to " + test.graph.getTableOfContent()[0]
+							+ " *************");
+				}
+				System.out.println(test.graph.getTableOfContent()[m] + "-" + test.graph.getTableOfContent()[n] + ":"
+						+ test.graph.getGraph()[m][n]);
+				if (m == n) {
+					System.out.println("**************************************************************");
+				}
 			}
-		
-		// table of content
-		/*
-		 * String[] text = test.graph.getTableOfContent(); for (int i = 0; i <
-		 * test.graph.getSize(); i++) { System.out.println(i + ":" + text[i]); }
-		 */
+		}
+		System.out.println("************TABLE OF PREV (VORGÄNGER) *****************");
+		for (int i = 0; i < test.graph.getSize(); i++) {
+			System.out.println("PREV OF" + test.graph.getTableOfContent()[i] + ":"
+					+ test.graph.getTableOfContent()[test.graph.getDijktra()[i]]);
+		}
+		System.out.println("*********************TABLE OF CONTENT (ALL NODES LISTED) ********************************");
+		String[] text = test.graph.getTableOfContent();
+		for (int i = 0; i < test.graph.getSize(); i++) {
+			System.out.println(i + ":" + text[i]);
+		}
+
+		System.out.println("***********************SHORTEST WAY FROM ANY NODE TO AACHEN ****************************");
+		for (int i = 0; i < test.graph.getSize(); i++) {
+			System.out.println("SHORTEST WAY FROM " + test.graph.tableOfContent()[i] + "TO AACHEN IS: "
+					+ test.graph.way(test.graph.tableOfContent()[i])+ ":" + test.graph.getGraph()[i][i]+"km");
+		}
 	}
 }
