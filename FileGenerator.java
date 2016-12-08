@@ -10,15 +10,14 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 public class FileGenerator {
-	private int N;
 
 	// constructor
 	public FileGenerator(int n, String filename) {
-		this.N = n;
-		fileGen(filename);
+		//fileGen(n, filename);
+		fileGenDub(n, filename);
 	}
 
-	private void fileGen(String filename) {
+	private void fileGen(int number, String filename) {
 		Writer writer = null;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
@@ -26,14 +25,50 @@ public class FileGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < number; i++) {
 			try {
-				writer.write(this.randomIP() + "--" + this.randomDATA()+"\n");
+				String tmp = this.randomIP() + "--" + this.randomDATA() + " \n";
+				writer.write(tmp);
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void fileGenDub(int number, String filename) {
+		Writer writer = null;
+		try {
+			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename), "utf-8"));
+		} catch (UnsupportedEncodingException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < number; i++) {
+			try {
+				String tmp = this.randomIP() + "--" + this.randomDATA() + " \n";
+				for (int j = 0; j < (int) (Math.random() * 5); j++) {
+					writer.write(tmp);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private String randomIP() {
@@ -50,14 +85,16 @@ public class FileGenerator {
 		String[] middle = { "IP", "HOST", "PORT", "LOCAL HOST", "NAME", "USER ID", "SERVER ID" };
 		String[] end = { "WAITING", "FINISHED", "STARTING", "PAUSE", "WAITING FOR SERVER", "WAITING FOR CLIENT",
 				"CONNECTION LOST" };
-		data = start[(int) (Math.random() * 7)] + " " + middle[(int)( Math.random() * 7)] + " "
-				+":"+ end[(int) (Math.random() * 7)];
+		data = start[(int) (Math.random() * 7)] + " " + middle[(int) (Math.random() * 7)] + " " + ":"
+				+ end[(int) (Math.random() * 7)];
 		return data;
 	}
 
 	public static void main(String[] args) {
-		FileGenerator test = new FileGenerator(1,"text.txt");
+		String filename = "/home/tali/Desktop/hello.txt";
+		FileGenerator test = new FileGenerator(10, filename);
 		System.out.println(test.randomIP());
 		System.out.println(test.randomDATA());
+
 	}
 }

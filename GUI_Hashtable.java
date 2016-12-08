@@ -26,7 +26,8 @@ import javafx.stage.Stage;
 
 public class GUI_Hashtable extends Application {
 	private Hashtable hashtable = new Hashtable();
-	private FileGenerator file= new FileGenerator(1000,"/home/tali/Desktop/webblog.txt" );
+	String filename="/home/tali/Desktop/webblog.txt" ;
+	private FileGenerator file= new FileGenerator(1000,filename);
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -39,8 +40,8 @@ public class GUI_Hashtable extends Application {
 		ListView<String> list = new ListView<String>(data);
 		list.setPrefSize(200, 400);
 		list.setEditable(true);
-		PriorityQueue<Item> queue = hashtable.writeItem("/home/tali/Desktop/webblog.txt");
-		hashtable.load("/home/tali/Desktop/webblog.txt");
+		PriorityQueue<Item> queue = hashtable.writeItem(filename);
+		hashtable.load(filename);
 		Iterator<Item> it = queue.iterator();
 		while (it.hasNext()) {
 			items.add(it.next().getKey());

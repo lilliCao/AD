@@ -135,12 +135,15 @@ public class Hashtable {
 		Item tmp;
 		int index;
 		while (!queue.isEmpty()) {
-			if ((double) this.size / (double) this.length > 0.5) {
-				rehashing();
+			if (((double) this.size / (double) this.length )> 0.5) {
+				rehashing(5);
 			}
 			tmp = queue.poll();
 			index = code(tmp.key);
 			while (hash[index].status == Status.OCCUPIED) {
+				if(index>= length-1){
+					rehashing(2);
+				}
 				index++;
 			}
 			hash[index].copyData(tmp);
@@ -166,12 +169,13 @@ public class Hashtable {
 
 	/**
 	 * This method resizes hashtable when the loadfactor is getting over the
-	 * limit [0.5,0.8] The content of the hashtable will be moved to the new
+	 * limit [0.5,0.8] by an input factor.
+	 * The content of the hashtable will be moved to the new
 	 * hashtable
 	 */
-	private void rehashing() {
+	private void rehashing(int factor) {
 		int oldLength = this.length;
-		int newLength = oldLength * 10;
+		int newLength = oldLength * factor;
 		Item[] newHash = new Item[newLength];
 		for (int i = 0; i < newHash.length; i++) {
 			newHash[i] = new Item();
@@ -193,7 +197,9 @@ public class Hashtable {
 
 	public static void main(String[] args) {
 		Hashtable test = new Hashtable();
-		test.load("/home/tali/Desktop/webblog.txt");
+		String filename="/home/tali/Desktop/webblog.txt" ;
+		FileGenerator file= new FileGenerator(20,filename);
+		test.load(filename);
 		System.out.format("Size is::::%d, Length is::::%d\n", test.size, test.length);
 		for (int i = 0; i < test.length; i++) {
 			System.out.println(i + ":::::" + test.hash[i].status + test.hash[i].data);
