@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import aufgabenblatt10.Main;
+import sun.security.provider.certpath.OCSP;
 
 public class Hashtable {
 	public enum Status {
@@ -58,7 +59,8 @@ public class Hashtable {
 		public String getKey() {
 			return this.key;
 		}
-		public String getData(){
+
+		public String getData() {
 			return this.data;
 		}
 
@@ -74,7 +76,7 @@ public class Hashtable {
 
 		// add data from 2 lines with the same ip together
 		public void dataCopy(Item i) {
-			this.data +="\n"+ i.data;
+			this.data += "\n" + i.data;
 		}
 
 		// Dubplicate return -1
@@ -86,8 +88,7 @@ public class Hashtable {
 	}
 
 	// Getter
-	public Item[] getHash()
-	{
+	public Item[] getHash() {
 		return this.hash;
 	}
 
@@ -131,21 +132,25 @@ public class Hashtable {
 	 * This method writes the content in a file in Hashtable
 	 */
 	public void load(String filename) {
+		// Avoid dubplicate
 		PriorityQueue<Item> queue = writeItem(filename);
+		// Data loading...
 		Item tmp;
 		int index;
 		while (!queue.isEmpty()) {
-			if (((double) this.size / (double) this.length )> 0.5) {
-				rehashing(5);
+			if (((double) this.size / (double) this.length) > 0.8) {
+				rehashing(2);
 			}
 			tmp = queue.poll();
 			index = code(tmp.key);
 			while (hash[index].status == Status.OCCUPIED) {
-				if(index>= length-1){
-					rehashing(2);
-				}
 				index++;
+				if (index >= length) {
+					rehashing(2);
+					index = code(tmp.key);
+				}
 			}
+
 			hash[index].copyData(tmp);
 			size++;
 		}
@@ -169,11 +174,10 @@ public class Hashtable {
 
 	/**
 	 * This method resizes hashtable when the loadfactor is getting over the
-	 * limit [0.5,0.8] by an input factor.
-	 * The content of the hashtable will be moved to the new
-	 * hashtable
+	 * limit [0.5,0.8] by an input factor. The content of the hashtable will be
+	 * moved to the new hashtable
 	 */
-	private void rehashing(int factor) {
+	public void rehashing(int factor) {
 		int oldLength = this.length;
 		int newLength = oldLength * factor;
 		Item[] newHash = new Item[newLength];
@@ -181,14 +185,38 @@ public class Hashtable {
 			newHash[i] = new Item();
 		}
 		Item tmp;
+		int index;
 		for (int i = 0; i < oldLength; i++) {
 			tmp = hash[i];
 			if (tmp.status == Status.OCCUPIED) {
-				newHash[code(tmp.key)].copyData(tmp);
+				index = code(tmp.key);
+				while (newHash[index].status == Status.OCCUPIED) {
+					index++;
+				}
+				newHash[index].copyData(tmp);
+
 			}
 		}
 		hash = newHash;
 		length = newLength;
+	}
+
+	/**
+	 * This method return the index of the input ip adress in the hashtable
+	 */
+	public String find(String ip) {
+		String data = "DATA NOT FOUND";
+		int index = this.code(ip);
+		while (this.hash[index].status != Status.FREE && index < this.length) {
+			if (this.hash[index].key.equals(ip)) {
+				data = this.hash[index].data;
+				break;
+			}
+			index++;
+
+		}
+
+		return data;
 	}
 
 	/**
@@ -197,13 +225,15 @@ public class Hashtable {
 
 	public static void main(String[] args) {
 		Hashtable test = new Hashtable();
-		String filename="/home/tali/Desktop/webblog.txt" ;
-		FileGenerator file= new FileGenerator(20,filename);
+		String filename = "/home/tali/Desktop/webblog.txt";
+		//FileGenerator file= new FileGenerator(20,filename);
 		test.load(filename);
 		System.out.format("Size is::::%d, Length is::::%d\n", test.size, test.length);
 		for (int i = 0; i < test.length; i++) {
-			System.out.println(i + ":::::" + test.hash[i].status + test.hash[i].data);
+			System.out.println(i + ":::::" + test.hash[i].status + " " + test.hash[i].data);
 		}
+		String ip = "28.129.108.14";
+		System.out.println(test.find(ip));
 
 	}
 }

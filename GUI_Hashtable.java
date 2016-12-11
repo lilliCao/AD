@@ -60,8 +60,7 @@ public class GUI_Hashtable extends Application {
 			public void handle(MouseEvent me){
 				String a=list.getSelectionModel().getSelectedItem();
 				if(a!="Please double click to choose the IP adress"){
-					int index = hashtable.code(a);
-					textField.setText(hashtable.getHash()[index].getData());
+					textField.setText(hashtable.find(a));
 				}
 			}
 		
