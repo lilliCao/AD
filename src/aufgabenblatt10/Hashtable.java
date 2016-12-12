@@ -1,4 +1,4 @@
-package aufgabenblatt11;
+package aufgabenblatt10;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-import aufgabenblatt10.Main;
 import sun.security.provider.certpath.OCSP;
 
 public class Hashtable {
@@ -166,10 +165,29 @@ public class Hashtable {
 		if (ip_split.length != 4) {
 			System.out.println("Unvalid IP adress");
 		} else {
-			code = Integer.parseInt(ip_split[0]) + Integer.parseInt(ip_split[1]) + Integer.parseInt(ip_split[2])
+			code = Integer.parseInt(ip_split[0])*1000 + Integer.parseInt(ip_split[1])*100 + Integer.parseInt(ip_split[2])*10
 					+ Integer.parseInt(ip_split[3]);
 		}
-		return code % this.length;
+		int prim = nearestPrim();
+		return code % prim;
+	}
+
+	private boolean isPrim(int number) {
+		for (int i = 2; i < number; i++) {
+			if (number % i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private int nearestPrim() {
+		for (int i = this.length; i > 2; i--) {
+			if (isPrim(i)) {
+				return i;
+			}
+		}
+		return 2;
 	}
 
 	/**
@@ -177,7 +195,7 @@ public class Hashtable {
 	 * limit [0.5,0.8] by an input factor. The content of the hashtable will be
 	 * moved to the new hashtable
 	 */
-	public void rehashing(int factor) {
+	private void rehashing(int factor) {
 		int oldLength = this.length;
 		int newLength = oldLength * factor;
 		Item[] newHash = new Item[newLength];
@@ -205,17 +223,21 @@ public class Hashtable {
 	 * This method return the index of the input ip adress in the hashtable
 	 */
 	public String find(String ip) {
+		int count = 0;
 		String data = "DATA NOT FOUND";
 		int index = this.code(ip);
+		count++;
 		while (this.hash[index].status != Status.FREE && index < this.length) {
+			count++;
 			if (this.hash[index].key.equals(ip)) {
 				data = this.hash[index].data;
+				count++;
 				break;
 			}
 			index++;
 
 		}
-
+		System.out.println(count);
 		return data;
 	}
 
@@ -224,9 +246,9 @@ public class Hashtable {
 	 */
 
 	public static void main(String[] args) {
-		Hashtable test = new Hashtable();
+	/*	Hashtable test = new Hashtable();
 		String filename = "/home/tali/Desktop/webblog.txt";
-		//FileGenerator file= new FileGenerator(20,filename);
+		// FileGenerator file= new FileGenerator(20,filename);
 		test.load(filename);
 		System.out.format("Size is::::%d, Length is::::%d\n", test.size, test.length);
 		for (int i = 0; i < test.length; i++) {
@@ -234,6 +256,16 @@ public class Hashtable {
 		}
 		String ip = "28.129.108.14";
 		System.out.println(test.find(ip));
-
+*/
+		//Cost analyse
+		int array[] ={10,100,200,300,500,700,900,1000,2000,4000,5000,10000,20000};
+		for(int i=0; i<array.length; i++){
+			Hashtable test = new Hashtable();
+			String filename = "/home/tali/Java_Prog/AD/src/aufgabenblatt10/webblog.txt";
+			FileGenerator file= new FileGenerator(array[i],filename);
+			test.load(filename);
+			String ip= test.hash[(int)(test.length*0.1)].key;
+			test.find(ip);
+		}
 	}
 }

@@ -1,12 +1,11 @@
-package aufgabenblatt11;
+package aufgabenblatt10;
 
-import aufgabenblatt11.Hashtable;
-import aufgabenblatt11.Hashtable.Item;
+import aufgabenblatt10.Hashtable;
+import aufgabenblatt10.Hashtable.Item;
 
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-import aufgabenblatt10.Main;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +25,7 @@ import javafx.stage.Stage;
 
 public class GUI_Hashtable extends Application {
 	private Hashtable hashtable = new Hashtable();
-	String filename="/home/tali/Desktop/webblog.txt" ;
+	String filename = "/home/tali/Java_Prog/AD/src/aufgabenblatt10/webblog.txt";
 	private FileGenerator file= new FileGenerator(1000,filename);
 
 	@Override

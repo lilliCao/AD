@@ -1,4 +1,4 @@
-package aufgabenblatt11;
+package aufgabenblatt10;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
